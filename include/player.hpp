@@ -1,9 +1,9 @@
 //header file for player
 #ifndef PLAYER_H
 #define PLAYER_H
-#include "entity.hpp"
+#include "creature.hpp"
 
-class Player : public Entity
+class Player : public Creature
 {
 public:
 	Player();

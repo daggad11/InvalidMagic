@@ -1,12 +1,11 @@
 //header file for creature
 #ifndef CREATURE_H
 #define CREATURE_H
-#include //this
-class Creature
+
+class Creature : public Entity
 {
 public:
 	Creature();
 	~Creature();
-	
 };
 #endif
