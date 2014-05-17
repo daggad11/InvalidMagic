@@ -1,6 +1,7 @@
 //header file for creature
 #ifndef CREATURE_H
 #define CREATURE_H
+#include "entity.hpp"
 
 class Creature : public Entity
 {
