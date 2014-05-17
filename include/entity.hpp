@@ -6,7 +6,8 @@
 class Entity
 {
 public:
-	 Entity(sf::RenderWindow* window, int width, int height, int x, int y, sf::Texture* texture, int mass);
+	Entity();
+	Entity(sf::RenderWindow* window, int width, int height, int x, int y, sf::Texture* texture, int mass);
 	~ Entity();
 protected:
 	sf::RenderWindow *window;

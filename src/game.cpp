@@ -32,11 +32,10 @@ int main() {
 		else
 			left = false;
 		world.getPlayer()->setMovementState(up, down, right, left);
-		//end of keyboard input
-
-			
+		//end of keyboard input	
 
     window.clear(sf::Color::Black);
+		world.draw();
     window.display();
   }
   return 0;

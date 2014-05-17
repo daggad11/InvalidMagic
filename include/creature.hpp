@@ -6,6 +6,7 @@
 class Creature : public Entity
 {
 public:
+	Creature();
 	Creature(sf::RenderWindow* window, int width, int height, int x, int y, sf::Texture* texture, int mass);
 	~Creature();
 private:
