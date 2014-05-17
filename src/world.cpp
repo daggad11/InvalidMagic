@@ -1,29 +1,33 @@
 #include "world.hpp"
 
-int Tile::tileSize;
-
 World::World(sf::RenderWindow* window, sf::View* view) {
 	this->window = window;
-	Tile::tileSize = 32;
+	
+	generate();
 
-	//tilemap
 	textures.push_back(new sf::Texture());
-	textures[0]->loadFromFile("resources/dirt1.png");
-	for (int a = 0; a < 100; a++) {
-		tiles.push_back(std::vector<Tile>());
-		for (int b = 0; b < 100; b++) {
-			tiles[a].push_back(Tile(window, a, b, Tile::tileSize, Tile::tileSize, textures[0]));
-		}
-	}
-
-	//player
-	textures.push_back(new sf::Texture());
-	textures[1]->loadFromFile("resources/grass.png");
-	player = Player(window, 1, 1, 1, 1, textures[1], 1, view);
+	textures[2]->loadFromFile("resources/player.png");
+	player = Player(window, 1, 1, 1, 1, textures[2], 1, view);
 }
 
 World::~World(){
 	//tonodo
+}
+
+void World::generate() {
+	srand(time(NULL));
+
+	textures.push_back(new sf::Texture());
+	textures.push_back(new sf::Texture());
+	textures[0]->loadFromFile("resources/dirt1.png");
+	textures[1]->loadFromFile("resources/grass.png");
+
+	for (int a = 0; a < 100; a++) {
+		tiles.push_back(std::vector<Tile>());
+		for (int b = 0; b < 100; b++) {
+			tiles[a].push_back(Tile(window, a, b, Tile::tileSize, Tile::tileSize, textures[rand()%2]));
+		}
+	}
 }
 
 void World::draw()

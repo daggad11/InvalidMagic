@@ -1,10 +1,12 @@
 #include <SFML/Graphics.hpp>
 #include "world.hpp"
 
+int Tile::tileSize;
 int main() {
+	Tile::tileSize = 64;
   sf::RenderWindow window(sf::VideoMode(800, 600), "Invalid Magic");
-	sf::View view(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
 	sf::Clock timer;
+	sf::View view(sf::FloatRect(0, 0, Tile::tileSize * 15, (Tile::tileSize * 15) * window.getSize().y/window.getSize().x));
 	World world(&window, &view);
 	
 	view.setCenter(world.getPlayer()->getX()*Tile::tileSize, world.getPlayer()->getY()*Tile::tileSize);
@@ -18,7 +20,10 @@ int main() {
       if (event.type == sf::Event::Closed)
         window.close();
     }
-		//keyboard input for player
+		//keyboard input
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+			window.close();
+		//player movement
 		bool up, down, left, right;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 			up = true;

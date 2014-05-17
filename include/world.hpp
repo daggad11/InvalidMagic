@@ -2,6 +2,7 @@
 #ifndef WORLD_H
 #define WORLD_H
 #include <vector>
+#include <cstdlib>
 #include "tile.hpp"
 #include "player.hpp"
 
@@ -10,6 +11,7 @@ class World
 public:
 	 World();
 	 World(sf::RenderWindow* window, sf::View* view);
+	 void generate();
 	 void draw();
 	 void update(double time);
 	 Player* getPlayer();
