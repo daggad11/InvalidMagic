@@ -3,10 +3,15 @@
 
 int main() {
   sf::RenderWindow window(sf::VideoMode(800, 600), "Invalid Magic");
-	World world(&window);
+	sf::View view(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
+	sf::Clock timer;
+	World world(&window, &view);
+	
+	view.setCenter(world.getPlayer()->getX()*Tile::tileSize, world.getPlayer()->getY()*Tile::tileSize);
+	window.setView(view);
+	timer.restart();
 
   while (window.isOpen()) {
-		
 		//event handling
     sf::Event event;
     while (window.pollEvent(event)) {
@@ -33,7 +38,9 @@ int main() {
 			left = false;
 		world.getPlayer()->setMovementState(up, down, right, left);
 		//end of keyboard input	
-
+		
+		world.update(timer.getElapsedTime().asSeconds());
+		timer.restart();
     window.clear(sf::Color::Black);
 		world.draw();
     window.display();

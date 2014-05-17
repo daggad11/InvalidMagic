@@ -4,11 +4,14 @@ Player::Player() {
 	//todo
 }
 
-Player::Player(sf::RenderWindow* window, int width, int height, int x, int y, sf::Texture* texture, int mass) : Creature(window, width, height, x, y, texture, mass) {
+Player::Player(sf::RenderWindow* window, int width, int height, int x, int y, sf::Texture* texture, int mass, sf::View* view) : Creature(window, width, height, x, y, texture, mass) {
+	this->view = view;
+
 	moveUp = false;
 	moveDown = false;
 	moveRight = false;
 	moveLeft = false;
+	speed = 1;
 }
 
 Player::~Player() {
@@ -24,6 +27,9 @@ void Player::move() {
 		x++;
 	if (moveLeft)
 		x--;
+	sprite.setPosition(x*Tile::tileSize, y*Tile::tileSize);
+	view->setCenter(x*Tile::tileSize, y*Tile::tileSize);
+	window->setView(*view);
 }
 
 void Player::setMovementState(bool up, bool down, bool right, bool left) {
@@ -31,4 +37,12 @@ void Player::setMovementState(bool up, bool down, bool right, bool left) {
 	moveDown = down;
 	moveRight = right;
 	moveLeft = left;
+}
+
+void Player::update(double time) {
+	moveTimer += time;
+	if ((moveUp || moveDown || moveLeft || moveRight) && moveTimer >= 0.1-(float)speed/2000) {
+		move();
+		moveTimer = 0;
+	}
 }

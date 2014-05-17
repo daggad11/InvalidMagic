@@ -9,6 +9,7 @@ public:
 	~Tile();
 	void setTexture(sf::Texture* t);
 	void draw();
+	static int tileSize;
 private:
 	void generateArray();
 	sf::VertexArray v;
