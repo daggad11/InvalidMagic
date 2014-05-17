@@ -1,6 +1,11 @@
 #include "world.hpp"
 
-World::World(sf::RenderWindow *window){
+World::World()
+{
+	
+}
+
+World::World(sf::RenderWindow* window){
 	this->window = window;
 }
 
