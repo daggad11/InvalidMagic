@@ -1,6 +1,6 @@
 CC=g++
 CFLAGS= -Iinclude/ -Llib/SFML/ -lsfml-graphics -lsfml-window -lsfml-system -Wl,-rpath,\$$ORIGIN/../lib/SFML/ -std=c++11
-OBJECTS= 
+OBJECTS= build/game.o build/entity.o build/creature.o build/player.o
 
 all: invalidmagic
 
