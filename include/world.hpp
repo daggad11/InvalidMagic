@@ -11,6 +11,6 @@ public:
 	~ World();
 private:
 	std::vector<std::vector<Tile>> tiles;
-	
+	sf::RenderWindow window;
 };
 #endif

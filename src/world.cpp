@@ -1,7 +1,7 @@
 #include "world.hpp"
 
-World::World(){
-	//todo
+World::World(sf::RenderWindow *window){
+	this->window = window;
 }
 
 World::~World(){
