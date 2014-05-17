@@ -11,8 +11,10 @@ public:
 	 World();
 	 World(sf::RenderWindow* window);
 	 void draw();
+	 Player* getPlayer();
 	~ World();
 private:
+	Player p;
 	std::vector<std::vector<Tile>> tiles;
 	std::vector<sf::Texture> textures;
 	sf::RenderWindow* window;
