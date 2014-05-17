@@ -9,7 +9,7 @@ public:
 	Player();
 	Player(sf::RenderWindow* window, int width, int height, int x, int y, sf::Texture* texture, int mass, sf::View* view);
 	~Player();
-	void update(double time);
+	void update(double time, std::vector<std::vector<Tile>> &tiles);
 	
 	//setters
 	void setMovementState(bool up, bool down, bool right, bool left);
@@ -22,9 +22,6 @@ private:
 
 	//timers
 	double moveTimer;
-
-	//stats
-	int speed;
 
 	void move();
 };

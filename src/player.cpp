@@ -1,4 +1,5 @@
 #include "player.hpp"
+#include <iostream>
 
 Player::Player() {
 	//todo
@@ -11,7 +12,6 @@ Player::Player(sf::RenderWindow* window, int width, int height, int x, int y, sf
 	moveDown = false;
 	moveRight = false;
 	moveLeft = false;
-	speed = 1;
 }
 
 Player::~Player() {
@@ -39,9 +39,9 @@ void Player::setMovementState(bool up, bool down, bool right, bool left) {
 	moveLeft = left;
 }
 
-void Player::update(double time) {
+void Player::update(double time, std::vector<std::vector<Tile>> &tiles) {
 	moveTimer += time;
-	if ((moveUp || moveDown || moveLeft || moveRight) && moveTimer >= 0.1-(float)speed/2000) {
+	if ((moveUp || moveDown || moveLeft || moveRight) && moveTimer >= 0.1-stat["speed"]/2000) {
 		move();
 		moveTimer = 0;
 	}

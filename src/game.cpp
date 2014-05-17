@@ -6,9 +6,9 @@ int Tile::tileSize;
 
 int main() {
 	Tile::tileSize = 64;
-  sf::RenderWindow window(sf::VideoMode(800, 600), "Invalid Magic");
+  sf::RenderWindow window(sf::VideoMode(1600, 900), "Invalid Magic");
 	sf::Clock timer;
-	sf::View view(sf::FloatRect(0, 0, Tile::tileSize * 15, (Tile::tileSize * 15) * window.getSize().y/window.getSize().x));
+	sf::View view(sf::FloatRect(0, 0, Tile::tileSize * 100, (Tile::tileSize * 100) * window.getSize().y/window.getSize().x));
 
 	std::ifstream saveFile("data/world.save");
 	World world(&window, &view, saveFile);
@@ -19,14 +19,6 @@ int main() {
 	timer.restart();
 
   while (window.isOpen()) {
-		//event handling
-    sf::Event event;
-    while (window.pollEvent(event)) {
-      if (event.type == sf::Event::Closed) {
-        world.save();
-				window.close();
-			}
-    }
 		//keyboard input
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 			world.save();

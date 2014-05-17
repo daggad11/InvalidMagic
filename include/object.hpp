@@ -7,11 +7,10 @@
 class Object : public Entity
 {
 public:
+	Object();
 	Object(sf::RenderWindow* window, int width, int height, int x, int y, sf::Texture* texture, int mass);
-
 	~Object();
 private:
-	sf::Sprite sprite;
-	sf::Texture texture;
+	bool moveable;
 };
 #endif

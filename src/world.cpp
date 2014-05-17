@@ -6,16 +6,19 @@ World::World(sf::RenderWindow* window, sf::View* view, bool hasSave) {
 	textures.push_back(new sf::Texture());
 	textures.push_back(new sf::Texture());
 	textures.push_back(new sf::Texture());
+	textures.push_back(new sf::Texture());
 	textures[0]->loadFromFile("resources/dirt1.png");
-	textures[1]->loadFromFile("resources/grass.png");
-	textures[2]->loadFromFile("resources/player.png");
+	textures[1]->loadFromFile("resources/dirt2.png");
+	textures[2]->loadFromFile("resources/grass.png");
+	textures[3]->loadFromFile("resources/player.png");
 	
 	if (hasSave)
 		load();
 	else
 		generate();
-
-	player = Player(window, 1, 1, 1, 1, textures[2], 1, view);
+	
+	player = Player(window, 1, 1, 1, 1, textures[3], 1, view);
+	
 }
 
 World::~World(){
@@ -31,23 +34,36 @@ void World::generate() {
 	for (int a = 0; a < 100; a++) {
 		tiles.push_back(std::vector<Tile>());
 		for (int b = 0; b < 100; b++) {
-			tiles[a].push_back(Tile(window, a, b, Tile::tileSize, Tile::tileSize, textures[1], 1));
+			tiles[a].push_back(Tile(window, a, b, Tile::tileSize, Tile::tileSize, textures[2], 2));
 		}
 	}
 	
 	int ypos = rand() % 10;
+	int type;
 	for (int a = 0; a < 99; a++) {
 		for (int b = 0; b < rand() % 3 + 4; b++) {
-			tiles[a][ypos] = Tile(window, a, ypos, Tile::tileSize, Tile::tileSize, textures[0], 0);
-			tiles[a+1][ypos] = Tile(window, a+1, ypos, Tile::tileSize, Tile::tileSize, textures[0], 0);
+			
+			if (rand() % 10 == 8)//specifically 8
+				type = 1;
+			else
+				type = 0;
+
+			tiles[a][ypos] = Tile(window, a, ypos, Tile::tileSize, Tile::tileSize, textures[type], type);
+			
+			if (rand() % 10 == 8)//specifically 8
+				type = 1;
+			else
+				type = 0;
+
+			tiles[a+1][ypos] = Tile(window, a+1, ypos, Tile::tileSize, Tile::tileSize, textures[type], type);
 			if (rand() % 2 && ypos < 99)
 				ypos++;
 			else if (ypos > 0)
 				ypos--;
 		}
 	}
-
-
+	
+	std::cout << "World Generated" << std::endl;
 }
 
 void World::draw()
@@ -60,7 +76,7 @@ void World::draw()
 }
 
 void World::update(double time) {
-	player.update(time);
+	player.update(time, tiles);
 }
 
 Player* World::getPlayer()
@@ -85,7 +101,6 @@ void World::load() {
 	int tilesX, tilesY;
 	file >> tilesX;
 	file >> tilesY;
-	std::cout << tilesX << " " << tilesY << std::endl;
 	for (int a = 0; a < tilesX; a++) {
 		tiles.push_back(std::vector<Tile>());
 		for (int b = 0; b < tilesY; b++) {
@@ -95,4 +110,5 @@ void World::load() {
 		}
 	}
 	file.close();
+	std::cout << "World Loaded" << std::endl;
 }
