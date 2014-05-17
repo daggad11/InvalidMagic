@@ -2,7 +2,7 @@
 
 World::World()
 {
-	
+	//default constructor. 
 }
 
 World::World(sf::RenderWindow* window){
