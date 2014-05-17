@@ -1,4 +1,4 @@
-#include "Tile.hpp"
+#include "tile.hpp"
 
 Tile::Tile() {
 	//todo
@@ -21,6 +21,7 @@ void Tile::Tile(sf::RenderWindow* window, int x, int y, int width, int height, s
 
 void Tile::generateArray()
 {
+  v = sf::VertexArray(sf::Quads, 4);
 	v[0] = sf::Vertex(sf::Vector2f(x*width, y*height), sf::Vector2f(0, 0));
 	v[1] = sf::Vertex(sf::Vector2f((x+1)*width, y*height), sf::Vector2f(t->getSize().x, 0));
 	v[2] = sf::Vertex(sf::Vector2f((x+1)*width, (y+1)*height), t->getSize());

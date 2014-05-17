@@ -1,5 +1,6 @@
 #ifndef TILE_HPP
 #define TILE_HPP
+#include <SFML/Graphics.hpp>
 
 class Tile {
 public:
@@ -10,8 +11,8 @@ public:
 	void draw();
 private:
 	void generateArray();
-	sf::VertexArray v(sf::Quads, 4);
-	sf::Texture* texture;
+	sf::VertexArray v;
+	sf::Texture* t;
 	sf::RenderWindow* window; 
 	int width;
 	int height;
