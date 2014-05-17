@@ -24,6 +24,7 @@ private:
 	Player player;
 	std::vector<std::vector<Tile>> tiles;
 	std::vector<sf::Texture*> textures;
+	std::map<int, std::map<int, Entity*>> tilemap; 
 	sf::RenderWindow* window;
 };
 #endif

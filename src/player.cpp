@@ -39,10 +39,12 @@ void Player::setMovementState(bool up, bool down, bool right, bool left) {
 	moveLeft = left;
 }
 
-void Player::update(double time, std::vector<std::vector<Tile>> &tiles) {
+void Player::update(double time, std::map<int, std::map<int, Entity*>> &tilemap) {
 	moveTimer += time;
 	if ((moveUp || moveDown || moveLeft || moveRight) && moveTimer >= 0.1-stat["speed"]/2000) {
+		tilemap[x][y] = NULL;
 		move();
 		moveTimer = 0;
+		tilemap[x][y] = this;
 	}
 }

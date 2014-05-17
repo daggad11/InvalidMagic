@@ -18,7 +18,7 @@ World::World(sf::RenderWindow* window, sf::View* view, bool hasSave) {
 		generate();
 	
 	player = Player(window, 1, 1, 1, 1, textures[3], 1, view);
-	
+	tilemap[1][1] = &player;
 }
 
 World::~World(){
@@ -76,7 +76,7 @@ void World::draw()
 }
 
 void World::update(double time) {
-	player.update(time, tiles);
+	player.update(time, tilemap);
 }
 
 Player* World::getPlayer()
