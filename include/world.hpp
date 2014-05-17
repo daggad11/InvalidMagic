@@ -8,9 +8,10 @@ class World
 {
 public:
 	 World();
+	 World(sf::RenderWindow* window);
 	~ World();
 private:
 	std::vector<std::vector<Tile>> tiles;
-	sf::RenderWindow window;
+	sf::RenderWindow* window;
 };
 #endif
