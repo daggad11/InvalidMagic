@@ -8,6 +8,9 @@ class Entity
 public:
 	 Entity();
 	~ Entity();
-	
+private:
+	double width;
+	double height;
+	double mass;
 };
 #endif

@@ -3,5 +3,10 @@ CFLAGS= -Iinclude/ -Llib/SFML/ -lsfml-graphics -lsfml-window -lsfml-system -Wl,-
 
 all:  game
 
+invalidmagic: game.o
+	$(CC) build/game.o $(CFLAGS) -o bin/game
+
 game: src/game.cpp
-	$(CC) src/game.cpp $(CFLAGS) -o bin/game
+	$(CC) src/game.cpp $(CFLAGS) -c -o build/game.o 
+
+
