@@ -8,7 +8,7 @@ Tile::~Tile() {
 	//todo
 }
 
-Tile::Tile(sf::RenderWindow* window, int x, int y, int width, int height, sf::Texture* t)
+Tile::Tile(sf::RenderWindow* window, int x, int y, int width, int height, sf::Texture* t, int type)
 {
 	this->window = window;
 	this->width = width;
@@ -16,6 +16,7 @@ Tile::Tile(sf::RenderWindow* window, int x, int y, int width, int height, sf::Te
 	this->x = x;
 	this->y = y;
 	this->t = t;
+	this->type = type;
 	generateArray();
 }
 
@@ -36,4 +37,8 @@ void Tile::draw()
 void Tile::setTexture(sf::Texture* t)
 {
 	this->t = t;
+}
+
+int Tile::getType() {
+	return type;
 }
