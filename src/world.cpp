@@ -19,8 +19,7 @@ World::World(sf::RenderWindow* window, sf::View* view, bool hasSave) {
 	else
 		generate();
 	
-	player = Player(window, 1, 1, 1, 1, textures[3], 1, view);
-	tilemap[1][1] = &player;
+	player = Player(window, 1, 1, 1, 1, textures[3], 1, view, &tilemap);
 }
 
 World::~World(){
@@ -64,8 +63,7 @@ void World::generate() {
 		} 
 	}
 
-	objects.push_back(Object(window, 1, 1, 4, 4, textures[4], "rock"));
-	tilemap[4][4] = &objects[0];
+	objects.push_back(Object(window, 1, 1, 4, 4, textures[4], "rock", &tilemap));
 	
 	std::cout << "World Generated" << std::endl;
 }
@@ -83,7 +81,7 @@ void World::draw()
 }
 
 void World::update(double time) {
-	player.update(time, tilemap);
+	player.update(time);
 }
 
 Player* World::getPlayer()
@@ -126,7 +124,6 @@ void World::load() {
 			tiles[a].push_back(Tile(window, a, b, Tile::tileSize, Tile::tileSize, textures[value], value));
 		}
 	}
-	std::cout << "blah" << std::endl;
 	//loading objects
 	int numberOfObjects;
 	file >> numberOfObjects;
@@ -138,8 +135,7 @@ void World::load() {
 		file >> x;
 		file >> y;
 		file >> type;
-		objects.push_back(Object(window, width, height, x, y, textures[4], type));
-		tilemap[x][y] = &objects[a];
+		objects.push_back(Object(window, width, height, x, y, textures[4], type, &tilemap));
 	}
 
 	file.close();

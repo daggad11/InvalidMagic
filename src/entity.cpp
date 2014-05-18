@@ -6,7 +6,7 @@ Entity::Entity() {
 	//todo
 }
 
-Entity::Entity(sf::RenderWindow* window, int width, int height, int x, int y, sf::Texture* texture, int mass) {
+Entity::Entity(sf::RenderWindow* window, int width, int height, int x, int y, sf::Texture* texture, int mass, std::map<int, std::map<int, Entity*>>* tilemap) {
 	this->width = width;
 	this->height = height;
 	this->x = x;
@@ -14,6 +14,9 @@ Entity::Entity(sf::RenderWindow* window, int width, int height, int x, int y, sf
 	this->mass = mass;
 	this->window = window;
 	this->texture = texture;
+	this->tilemap = tilemap;
+
+	(*tilemap)[x][y] = this;
 	
 	sprite.setTexture(*texture);
 	sprite.setScale((float)Tile::tileSize/texture->getSize().x*width, (float)Tile::tileSize/texture->getSize().y*height);

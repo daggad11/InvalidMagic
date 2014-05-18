@@ -5,7 +5,7 @@ Player::Player() {
 	//todo
 }
 
-Player::Player(sf::RenderWindow* window, int width, int height, int x, int y, sf::Texture* texture, int mass, sf::View* view) : Creature(window, width, height, x, y, texture, mass) {
+Player::Player(sf::RenderWindow* window, int width, int height, int x, int y, sf::Texture* texture, int mass, sf::View* view, std::map<int, std::map<int, Entity*>>* tilemap) : Creature(window, width, height, x, y, texture, mass, tilemap) {
 	this->view = view;
 
 	moveUp = false;
@@ -18,14 +18,14 @@ Player::~Player() {
 	//todo
 }
 
-void Player::move(std::map<int, std::map<int, Entity*>> &tilemap) {
-	if (moveUp && tilemap[x][y-1] == NULL)
+void Player::move(std::map<int, std::map<int, Entity*>>* tilemap) {
+	if (moveUp && (*tilemap)[x][y-1] == NULL)
 		y--;
-	if (moveDown && tilemap[x][y+1] == NULL)
+	if (moveDown && (*tilemap)[x][y+1] == NULL)
 		y++;
-	if (moveRight && tilemap[x+1][y] == NULL)
+	if (moveRight && (*tilemap)[x+1][y] == NULL)
 		x++;
-	if (moveLeft && tilemap[x-1][y] == NULL)
+	if (moveLeft && (*tilemap)[x-1][y] == NULL)
 		x--;
 	sprite.setPosition(x*Tile::tileSize, y*Tile::tileSize);
 	view->setCenter(x*Tile::tileSize, y*Tile::tileSize);
@@ -39,12 +39,12 @@ void Player::setMovementState(bool up, bool down, bool right, bool left) {
 	moveLeft = left;
 }
 
-void Player::update(double time, std::map<int, std::map<int, Entity*>> &tilemap) {
+void Player::update(double time) {
 	moveTimer += time;
 	if ((moveUp || moveDown || moveLeft || moveRight) && moveTimer >= 0.1-stat["speed"]/2000) {
-		tilemap[x][y] = NULL;
+		(*tilemap)[x][y] = NULL;
 		move(tilemap);
 		moveTimer = 0;
-		tilemap[x][y] = this;
+		(*tilemap)[x][y] = this;
 	}
 }

@@ -1,7 +1,7 @@
 #include "object.hpp"
 
 
-Object::Object(sf::RenderWindow* window, int width, int height, int x, int y, sf::Texture* texture, std::string type) : Entity(window, width, height, x, y, texture, mass){
+Object::Object(sf::RenderWindow* window, int width, int height, int x, int y, sf::Texture* texture, std::string type, std::map<int, std::map<int, Entity*>>* tilemap) : Entity(window, width, height, x, y, texture, mass, tilemap) {
 	int mass;
 	if(type=="tree"){
 		solid = true;

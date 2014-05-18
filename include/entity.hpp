@@ -2,13 +2,14 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 #include <SFML/Graphics.hpp>
+#include <map>
 #include "tile.hpp"
 
 class Entity
 {
 public:
 	Entity();
-	Entity(sf::RenderWindow* window, int width, int height, int x, int y, sf::Texture* texture, int mass);
+	Entity(sf::RenderWindow* window, int width, int height, int x, int y, sf::Texture* texture, int mass, std::map<int, std::map<int, Entity*>>* tilemap);
 	~ Entity();
 	void draw();
 
@@ -19,8 +20,9 @@ public:
 	int getHeight();
 	int getMass();
 protected:
-	sf::RenderWindow *window;
+	sf::RenderWindow* window;
 	sf::Texture* texture;
+	std::map<int, std::map<int, Entity*>>* tilemap;
 	sf::Sprite sprite;
 	int width;
 	int height;
