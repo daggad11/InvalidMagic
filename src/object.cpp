@@ -24,14 +24,28 @@ void Object::setSolid(bool s){
 	this->solid = s;
 }
 
-bool Object::getMovable(){
-	return movable;
+int Object::getDurability(){
+	return durability;
 }
 
-void Object::setMovable(bool m){
-	this->movable = m;
+void Object::setDurability(int newDur){
+	this->durability = newDur;
 }
 
+std::string Object::getType(){
+	return type;
+}
+
+void Object::setType(std::string t){
+	this->type = t; 
+}
+
+void Object::breakThisObject(int reducedBy){
+	durability -= reducedBy;
+	if(durability<0){
+		delete this;
+	}
+}
 Object::~Object(){
 	//todo
 }
