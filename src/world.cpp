@@ -22,7 +22,6 @@ World::World(sf::RenderWindow* window, sf::View* view, bool hasSave) {
 }
 
 World::~World(){
-	//tonodo
 }
 
 void World::generate() {
@@ -60,7 +59,7 @@ void World::generate() {
 				ypos++;
 			else if (ypos > 0)
 				ypos--;
-		}
+		} 
 	}
 	
 	std::cout << "World Generated" << std::endl;

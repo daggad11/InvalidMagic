@@ -7,7 +7,7 @@ all: bin/game
 bin/game: $(OBJECTS)
 	$(CC) $(OBJECTS) $(CFLAGS) -o bin/game
 
-build/game.o: src/game.cpp
+build/game.o: src/game.cpp build/world.o 
 	$(CC) src/game.cpp $(CFLAGS) -c -o build/game.o
 
 build/tile.o: src/tile.cpp include/tile.hpp
