@@ -2,24 +2,13 @@
 
 World::World(sf::RenderWindow* window, sf::View* view, bool hasSave) {
 	this->window = window;
-
-	textures.push_back(new sf::Texture());
-	textures.push_back(new sf::Texture());
-	textures.push_back(new sf::Texture());
-	textures.push_back(new sf::Texture());
-	textures.push_back(new sf::Texture());
-	textures[0]->loadFromFile("resources/dirt1.png");
-	textures[1]->loadFromFile("resources/dirt2.png");
-	textures[2]->loadFromFile("resources/grass.png");
-	textures[3]->loadFromFile("resources/player.png");
-	textures[4]->loadFromFile("resources/rock.png");
 	
 	if (hasSave)
 		load();
 	else
 		generate();
 	
-	player = Player(window, 1, 1, 1, 1, textures[3], 1, view, &tilemap);
+	player = Player(window, 1, 1, 1, 1, 1, view, &tilemap);
 }
 
 World::~World(){
@@ -34,28 +23,28 @@ void World::generate() {
 	for (int a = 0; a < 100; a++) {
 		tiles.push_back(std::vector<Tile>());
 		for (int b = 0; b < 100; b++) {
-			tiles[a].push_back(Tile(window, a, b, Tile::tileSize, Tile::tileSize, textures[2], 2));
+			tiles[a].push_back(Tile(window, a, b, Tile::tileSize, Tile::tileSize, "grass"));
 		}
 	}
 	
 	int ypos = rand() % 10;
-	int type;
+	std::string type;
 	for (int a = 0; a < 99; a++) {
 		for (int b = 0; b < rand() % 3 + 4; b++) {
 			
 			if (rand() % 10 == 8)//specifically 8
-				type = 1;
+				type = "dirt1";
 			else
-				type = 0;
+				type = "dirt2";
 
-			tiles[a][ypos] = Tile(window, a, ypos, Tile::tileSize, Tile::tileSize, textures[type], type);
+			tiles[a][ypos] = Tile(window, a, ypos, Tile::tileSize, Tile::tileSize, type);
 			
 			if (rand() % 10 == 8)//specifically 8
-				type = 1;
+				type = "dirt1";
 			else
-				type = 0;
+				type = "dirt2";
 
-			tiles[a+1][ypos] = Tile(window, a+1, ypos, Tile::tileSize, Tile::tileSize, textures[type], type);
+			tiles[a+1][ypos] = Tile(window, a+1, ypos, Tile::tileSize, Tile::tileSize, type);
 			if (rand() % 2 && ypos < 99)
 				ypos++;
 			else if (ypos > 0)
@@ -63,7 +52,7 @@ void World::generate() {
 		} 
 	}
 
-	objects.push_back(Object(window, 1, 1, 4, 4, textures[4], "rock", &tilemap));
+	objects.push_back(Object(window, 1, 1, 4, 4, "rock", &tilemap));
 	
 	std::cout << "World Generated" << std::endl;
 }
@@ -104,7 +93,7 @@ void World::save() {
 	//save objects
 	file << objects.size() << std::endl;
 	for (auto object : objects) {
-		file << object.getWidth() << " " << object.getHeight() << " " << object.getX() << " " << object.getY() << " " << object.getMass() << " "  << object.getType() << std::endl;
+		file << object.getWidth() << " " << object.getHeight() << " " << object.getX() << " " << object.getY() << " " << object.getType() << std::endl;
 	}
 	file.close();
 }
@@ -116,12 +105,12 @@ void World::load() {
 	file >> tilesY;
 
 	//loading tiles
-	int value;
+	std::string value;
 	for (int a = 0; a < tilesX; a++) {
 		tiles.push_back(std::vector<Tile>());
 		for (int b = 0; b < tilesY; b++) {
 			file >> value;
-			tiles[a].push_back(Tile(window, a, b, Tile::tileSize, Tile::tileSize, textures[value], value));
+			tiles[a].push_back(Tile(window, a, b, Tile::tileSize, Tile::tileSize, value));
 		}
 	}
 	//loading objects
@@ -135,7 +124,8 @@ void World::load() {
 		file >> x;
 		file >> y;
 		file >> type;
-		objects.push_back(Object(window, width, height, x, y, textures[4], type, &tilemap));
+		std::cout << type << std::endl;
+		objects.push_back(Object(window, width, height, x, y, type, &tilemap));
 	}
 
 	file.close();

@@ -1,15 +1,16 @@
 #ifndef TILE_HPP
 #define TILE_HPP
 #include <SFML/Graphics.hpp>
+#include "resources.hpp"
 
 class Tile {
 public:
 	Tile();
-	Tile(sf::RenderWindow* window, int x, int y, int width, int height, sf::Texture* t, int type);
+	Tile(sf::RenderWindow* window, int x, int y, int width, int height, std::string type);
 	~Tile();
 	void setTexture(sf::Texture* t);
 	void draw();
-	int getType();
+	std::string getType();
 	static int tileSize;
 private:
 	void generateArray();
@@ -20,7 +21,7 @@ private:
 	int height;
 	int x;
 	int y;
-	int type;
+	std::string type;
 };
 
 #endif

@@ -1,8 +1,9 @@
 #include "object.hpp"
+#include <iostream>
 
+Object::Object(sf::RenderWindow* window, int width, int height, int x, int y, std::string type, std::map<int, std::map<int, Entity*>>* tilemap) : Entity(window, width, height, x, y, mass, tilemap) {
+	this->type = type;
 
-Object::Object(sf::RenderWindow* window, int width, int height, int x, int y, sf::Texture* texture, std::string type, std::map<int, std::map<int, Entity*>>* tilemap) : Entity(window, width, height, x, y, texture, mass, tilemap) {
-	int mass;
 	if(type=="tree"){
 		solid = true;
 		durability = 50;
@@ -12,7 +13,10 @@ Object::Object(sf::RenderWindow* window, int width, int height, int x, int y, sf
 		solid = true;
 		durability = 9001;
 		mass = 500;
+		texture = Resources::getTexture("rock");
 	}
+	initSprite();
+	std::cout << mass << std::endl;
 	
 }
 

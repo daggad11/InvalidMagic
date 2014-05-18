@@ -4,12 +4,13 @@
 #include <SFML/Graphics.hpp>
 #include <map>
 #include "tile.hpp"
+#include "resources.hpp"
 
 class Entity
 {
 public:
 	Entity();
-	Entity(sf::RenderWindow* window, int width, int height, int x, int y, sf::Texture* texture, int mass, std::map<int, std::map<int, Entity*>>* tilemap);
+	Entity(sf::RenderWindow* window, int width, int height, int x, int y, int mass, std::map<int, std::map<int, Entity*>>* tilemap);
 	~ Entity();
 	void draw();
 
@@ -29,5 +30,6 @@ protected:
 	int x;
 	int y;
 	int mass;
+	void initSprite();
 };
 #endif

@@ -5,13 +5,16 @@ Player::Player() {
 	//todo
 }
 
-Player::Player(sf::RenderWindow* window, int width, int height, int x, int y, sf::Texture* texture, int mass, sf::View* view, std::map<int, std::map<int, Entity*>>* tilemap) : Creature(window, width, height, x, y, texture, mass, tilemap) {
+Player::Player(sf::RenderWindow* window, int width, int height, int x, int y, int mass, sf::View* view, std::map<int, std::map<int, Entity*>>* tilemap) : Creature(window, width, height, x, y, mass, tilemap) {
 	this->view = view;
 
 	moveUp = false;
 	moveDown = false;
 	moveRight = false;
 	moveLeft = false;
+	
+	texture = Resources::getTexture("player");
+	initSprite();
 }
 
 Player::~Player() {
@@ -41,7 +44,7 @@ void Player::setMovementState(bool up, bool down, bool right, bool left) {
 
 void Player::update(double time) {
 	moveTimer += time;
-	if ((moveUp || moveDown || moveLeft || moveRight) && moveTimer >= 0.1-stat["speed"]/2000) {
+	if ((moveUp || moveDown || moveLeft || moveRight) && moveTimer >= 0.1-stat["speed"]/2000) {	
 		(*tilemap)[x][y] = NULL;
 		move(tilemap);
 		moveTimer = 0;

@@ -8,7 +8,7 @@ class Object : public Entity
 {
 public:
 	Object();
-	Object(sf::RenderWindow* window, int width, int height, int x, int y, sf::Texture* texture, std::string type, std::map<int, std::map<int, Entity*>>* tilemap);
+	Object(sf::RenderWindow* window, int width, int height, int x, int y, std::string type, std::map<int, std::map<int, Entity*>>* tilemap);
 	bool getSolid();
 	void setSolid(bool s);
 	int getDurability();

@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <fstream>
 #include "world.hpp"
+#include "resources.hpp"
 
 int Tile::tileSize;
 
@@ -9,6 +10,8 @@ int main() {
   sf::RenderWindow window(sf::VideoMode(1600, 900), "Invalid Magic");
 	sf::Clock timer;
 	sf::View view(sf::FloatRect(0, 0, Tile::tileSize * 25, (Tile::tileSize * 25) * window.getSize().y/window.getSize().x));
+
+	Resources::init();
 
 	std::ifstream saveFile("data/world.save");
 	World world(&window, &view, saveFile);
