@@ -31,6 +31,8 @@ void Entity::draw() {
 //getters
 int Entity::getX() { return x; }
 int Entity::getY() { return y; } 
-
+int Entity::getWidth() { return width; }
+int Entity::getHeight() { return height; }
+int Entity::getMass() { return mass; } 
 
 

@@ -94,15 +94,19 @@ Player* World::getPlayer()
 void World::save() {
 	std::ofstream file("data/world.save");
 	file << tiles.size() << " " << tiles[0].size() << std::endl;
+
+	//save tiles
 	for (auto row : tiles) {
 		for (auto tile : row) {
-			file << tile.getType() << " ";
+			file << tile.getType() << " " ;
 		}
 		file << std::endl;
 	}
+
+	//save objects
 	file << objects.size() << std::endl;
 	for (auto object : objects) {
-		file << object.getSolid
+		file << object.getWidth() << " " << object.getHeight() << " " << object.getX() << " " << object.getY() << " " << object.getMass() << " "  << object.getType() << std::endl;
 	}
 	file.close();
 }
@@ -112,14 +116,32 @@ void World::load() {
 	int tilesX, tilesY;
 	file >> tilesX;
 	file >> tilesY;
+
+	//loading tiles
+	int value;
 	for (int a = 0; a < tilesX; a++) {
 		tiles.push_back(std::vector<Tile>());
 		for (int b = 0; b < tilesY; b++) {
-			int value;
 			file >> value;
 			tiles[a].push_back(Tile(window, a, b, Tile::tileSize, Tile::tileSize, textures[value], value));
 		}
 	}
+	std::cout << "blah" << std::endl;
+	//loading objects
+	int numberOfObjects;
+	file >> numberOfObjects;
+	for (int a = 0; a < numberOfObjects; a++) {
+		int width, height, x, y;
+		std::string type;
+		file >> width;
+		file >> height;
+		file >> x;
+		file >> y;
+		file >> type;
+		objects.push_back(Object(window, width, height, x, y, textures[4], type));
+		tilemap[x][y] = &objects[a];
+	}
+
 	file.close();
 	std::cout << "World Loaded" << std::endl;
 }

@@ -15,6 +15,9 @@ public:
 	//getters
 	int getX();
 	int getY();
+	int getWidth();
+	int getHeight();
+	int getMass();
 protected:
 	sf::RenderWindow *window;
 	sf::Texture* texture;
