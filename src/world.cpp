@@ -7,10 +7,12 @@ World::World(sf::RenderWindow* window, sf::View* view, bool hasSave) {
 	textures.push_back(new sf::Texture());
 	textures.push_back(new sf::Texture());
 	textures.push_back(new sf::Texture());
+	textures.push_back(new sf::Texture());
 	textures[0]->loadFromFile("resources/dirt1.png");
 	textures[1]->loadFromFile("resources/dirt2.png");
 	textures[2]->loadFromFile("resources/grass.png");
 	textures[3]->loadFromFile("resources/player.png");
+	textures[4]->loadFromFile("resources/rock.png");
 	
 	if (hasSave)
 		load();
@@ -61,6 +63,9 @@ void World::generate() {
 				ypos--;
 		} 
 	}
+
+	objects.push_back(Object(window, 1, 1, 4, 4, textures[4], "rock"));
+	tilemap[4][4] = &objects[0];
 	
 	std::cout << "World Generated" << std::endl;
 }
@@ -70,6 +75,9 @@ void World::draw()
 	for (auto row: tiles)
 		for (auto tile : row)
 			tile.draw();
+
+	for (auto object : objects)
+		object.draw();
 
 	player.draw();
 }
@@ -91,6 +99,10 @@ void World::save() {
 			file << tile.getType() << " ";
 		}
 		file << std::endl;
+	}
+	file << objects.size() << std::endl;
+	for (auto object : objects) {
+		//
 	}
 	file.close();
 }

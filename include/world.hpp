@@ -7,6 +7,7 @@
 #include <iostream>
 #include "tile.hpp"
 #include "player.hpp"
+#include "object.hpp"
 
 class World
 {
@@ -25,6 +26,7 @@ private:
 	std::vector<std::vector<Tile>> tiles;
 	std::vector<sf::Texture*> textures;
 	std::map<int, std::map<int, Entity*>> tilemap; 
+	std::vector<Object> objects;
 	sf::RenderWindow* window;
 };
 #endif

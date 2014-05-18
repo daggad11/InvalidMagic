@@ -8,7 +8,7 @@ int main() {
 	Tile::tileSize = 64;
   sf::RenderWindow window(sf::VideoMode(1600, 900), "Invalid Magic");
 	sf::Clock timer;
-	sf::View view(sf::FloatRect(0, 0, Tile::tileSize * 100, (Tile::tileSize * 100) * window.getSize().y/window.getSize().x));
+	sf::View view(sf::FloatRect(0, 0, Tile::tileSize * 25, (Tile::tileSize * 25) * window.getSize().y/window.getSize().x));
 
 	std::ifstream saveFile("data/world.save");
 	World world(&window, &view, saveFile);
