@@ -1,4 +1,6 @@
 #include "entity.hpp"
+#include <iostream>
+
 
 Entity::Entity() {
 	//todo

@@ -18,14 +18,14 @@ Player::~Player() {
 	//todo
 }
 
-void Player::move() {
-	if (moveUp)
+void Player::move(std::map<int, std::map<int, Entity*>> &tilemap) {
+	if (moveUp && tilemap[x][y-1] == NULL)
 		y--;
-	if (moveDown)
+	if (moveDown && tilemap[x][y+1] == NULL)
 		y++;
-	if (moveRight)
+	if (moveRight && tilemap[x+1][y] == NULL)
 		x++;
-	if (moveLeft)
+	if (moveLeft && tilemap[x-1][y] == NULL)
 		x--;
 	sprite.setPosition(x*Tile::tileSize, y*Tile::tileSize);
 	view->setCenter(x*Tile::tileSize, y*Tile::tileSize);
@@ -43,7 +43,7 @@ void Player::update(double time, std::map<int, std::map<int, Entity*>> &tilemap)
 	moveTimer += time;
 	if ((moveUp || moveDown || moveLeft || moveRight) && moveTimer >= 0.1-stat["speed"]/2000) {
 		tilemap[x][y] = NULL;
-		move();
+		move(tilemap);
 		moveTimer = 0;
 		tilemap[x][y] = this;
 	}

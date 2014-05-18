@@ -102,7 +102,7 @@ void World::save() {
 	}
 	file << objects.size() << std::endl;
 	for (auto object : objects) {
-		//
+		file << object.getSolid
 	}
 	file.close();
 }

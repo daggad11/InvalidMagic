@@ -23,6 +23,6 @@ private:
 	//timers
 	double moveTimer;
 
-	void move();
+	void move(std::map<int, std::map<int, Entity*>> &tilemap);
 };
 #endif
