@@ -8,16 +8,15 @@ World::World(sf::RenderWindow* window, sf::View* view, bool hasSave) {
 	else
 		generate();
 	
-	player = Player(window, 1, 1, 1, 1, 1, view, &tilemap);
+	player = new Player(window, 1, 1, 1, 1, 1, view, &tilemap);
 }
 
 World::~World(){
+	delete player;
 }
 
 void World::generate() {
 	srand(time(NULL));
-
-
 
 	//drawing grass
 	for (int a = 0; a < 100; a++) {
@@ -52,30 +51,40 @@ void World::generate() {
 		} 
 	}
 
-	objects.push_back(Object(window, 1, 1, 4, 4, "rock", &tilemap));
+	objects.push_back(new Object(window, 1, 1, 4, 4, "rock", &tilemap));
 	
-	std::cout << "World Generated" << std::endl;
 }
 
 void World::draw()
 {
-	for (auto row: tiles)
-		for (auto tile : row)
-			tile.draw();
+	int dX = window->getSize().x / Tile::tileSize/2 + 1;
+	int dY = window->getSize().y / Tile::tileSize/2 + 1;
 
-	for (auto object : objects)
-		object.draw();
-
-	player.draw();
-}
+	//drawing tiles
+	for (int a = player->getX() - dX; a < player->getX() + dX; a++) {
+		for (int b = player->getY() - dY; b < player->getY() + dY; b++) {
+			if (a >= 0 && b > 0 && a < tiles.size() && b < tiles[0].size())
+				if (a >= 0 && b >= 0 && a < tiles.size() && b < tiles[0].size()) 
+					tiles[a][b].draw();
+		}
+	}
+	
+	//drawing entities
+	for (int a = player->getX() - dX; a < player->getX() + dX; a++) {
+		for (int b = player->getY() - dY; b < player->getY() + dY; b++) {
+			if (tilemap[a][b] != NULL)
+				tilemap[a][b]->draw();
+		}
+	}
+}	
 
 void World::update(double time) {
-	player.update(time);
+	player->update(time);
 }
 
 Player* World::getPlayer()
 {
-	return &player;
+	return player;
 }
 
 void World::save() {
@@ -93,7 +102,7 @@ void World::save() {
 	//save objects
 	file << objects.size() << std::endl;
 	for (auto object : objects) {
-		file << object.getWidth() << " " << object.getHeight() << " " << object.getX() << " " << object.getY() << " " << object.getType() << std::endl;
+		file << object->getWidth() << " " << object->getHeight() << " " << object->getX() << " " << object->getY() << " " << object->getType() << std::endl;
 	}
 	file.close();
 }
@@ -124,8 +133,7 @@ void World::load() {
 		file >> x;
 		file >> y;
 		file >> type;
-		std::cout << type << std::endl;
-		objects.push_back(Object(window, width, height, x, y, type, &tilemap));
+		objects.push_back(new Object(window, width, height, x, y, type, &tilemap));
 	}
 
 	file.close();

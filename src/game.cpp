@@ -6,10 +6,10 @@
 int Tile::tileSize;
 
 int main() {
-	Tile::tileSize = 64;
   sf::RenderWindow window(sf::VideoMode(1600, 900), "Invalid Magic");
+	Tile::tileSize = window.getSize().x/20;
 	sf::Clock timer;
-	sf::View view(sf::FloatRect(0, 0, Tile::tileSize * 25, (Tile::tileSize * 25) * window.getSize().y/window.getSize().x));
+	sf::View view(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
 
 	Resources::init();
 
@@ -29,8 +29,9 @@ int main() {
 		}
 		//player movement
 		bool up, down, left, right;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 			up = true;
+		}
 		else
 			up = false;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
@@ -46,7 +47,8 @@ int main() {
 		else
 			left = false;
 		world.getPlayer()->setMovementState(up, down, right, left);
-		//end of keyboard input	
+		//end of keyboard input
+
 		
 		world.update(timer.getElapsedTime().asSeconds());
 		timer.restart();

@@ -14,8 +14,6 @@ Entity::Entity(sf::RenderWindow* window, int width, int height, int x, int y, in
 	this->mass = mass;
 	this->window = window;
 	this->tilemap = tilemap;
-
-	(*tilemap)[x][y] = this;
 }
 
 Entity::~Entity() {

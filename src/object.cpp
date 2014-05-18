@@ -1,5 +1,4 @@
 #include "object.hpp"
-#include <iostream>
 
 Object::Object(sf::RenderWindow* window, int width, int height, int x, int y, std::string type, std::map<int, std::map<int, Entity*>>* tilemap) : Entity(window, width, height, x, y, mass, tilemap) {
 	this->type = type;
@@ -16,9 +15,9 @@ Object::Object(sf::RenderWindow* window, int width, int height, int x, int y, st
 		texture = Resources::getTexture("rock");
 	}
 	initSprite();
-	std::cout << mass << std::endl;
-	
+	(*tilemap)[x][y] = this;
 }
+
 
 bool Object::getSolid(){
 	return solid;

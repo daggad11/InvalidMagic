@@ -12,9 +12,11 @@ Player::Player(sf::RenderWindow* window, int width, int height, int x, int y, in
 	moveDown = false;
 	moveRight = false;
 	moveLeft = false;
+	moveTimer = 0;
 	
 	texture = Resources::getTexture("player");
 	initSprite();
+	(*tilemap)[x][y] = this;
 }
 
 Player::~Player() {
@@ -44,7 +46,7 @@ void Player::setMovementState(bool up, bool down, bool right, bool left) {
 
 void Player::update(double time) {
 	moveTimer += time;
-	if ((moveUp || moveDown || moveLeft || moveRight) && moveTimer >= 0.1-stat["speed"]/2000) {	
+	if ((moveUp || moveDown || moveLeft || moveRight) && moveTimer >= 0.1-stat["speed"]/2000) {
 		(*tilemap)[x][y] = NULL;
 		move(tilemap);
 		moveTimer = 0;
