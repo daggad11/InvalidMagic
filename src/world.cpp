@@ -25,16 +25,26 @@ void World::populate(std::string type, int x1, int y1, int x2, int y2, int chanc
 			}
 		}
 	}
+}
 
+void World::paint(std::string type, int x1, int y1, int x2, int y2, int chance) {
+	for (int a = x1; a <= x2; a++) {
+		for (int b = y1+1; b <= y2; b++) {
+			if (rand() % 100 + 1 <= chance) {
+				tilemap[a][b] = new Tile(window, a, b, Tile::tileSize, Tile::tileSize, type);
+			}
+		}
+	}
 }
 
 void World::generate(int width, int height) {
 	for (int a = 0; a < width; a++) {
 		for (int b = 0; b < height; b++) {
-			tilemap[a][b] = new Tile(window, a, b, Tile::tileSize, Tile::tileSize, "grass");
+			tilemap[a][b] = new Tile(window, a, b, Tile::tileSize, Tile::tileSize, "dirt1");
 		}
 	}
 	populate("rock", 0, 0, width - 1, height - 1, 1);
+	paint("dirt2", 0, 0, 99, 99, 1);
 }
 
 void World::draw()

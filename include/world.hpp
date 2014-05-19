@@ -24,6 +24,7 @@ public:
 	//generation functions
 	void generate(int width, int height);
 	void populate(std::string type, int x1, int y1, int x2, int y2, int chance);
+	void paint(std::string type, int x1, int y1, int x2, int y2, int chance);
 private:
 	Player *player;
 	std::map<int, std::map<int, Tile*>> tilemap;
