@@ -1,12 +1,19 @@
 #include <SFML/Graphics.hpp>
 #include <fstream>
+#include <cstdio>
 #include "world.hpp"
 #include "resources.hpp"
 
 int Tile::tileSize;
 
-int main() {
-  sf::RenderWindow window(sf::VideoMode(1600, 900), "Invalid Magic");
+int main(int argc, char* argv[]) {
+	int width = 800;
+	int height = 600;
+	if (argc == 3) {
+		width = atoi(argv[1]);
+		height = atoi(argv[2]);
+	}
+  sf::RenderWindow window(sf::VideoMode(width, height), "Invalid Magic");
 	Tile::tileSize = window.getSize().x/20;
 	sf::Clock timer;
 	sf::View view(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
