@@ -10,7 +10,7 @@ class Entity
 {
 public:
 	Entity();
-	Entity(sf::RenderWindow* window, int width, int height, int x, int y, int mass, std::map<int, std::map<int, Entity*>>* tilemap);
+	Entity(sf::RenderWindow* window, int width, int height, int x, int y, int mass, std::map<int, std::map<int, Entity*>>* entitymap);
 	~ Entity();
 	void draw();
 
@@ -23,7 +23,7 @@ public:
 protected:
 	sf::RenderWindow* window;
 	sf::Texture* texture;
-	std::map<int, std::map<int, Entity*>>* tilemap;
+	std::map<int, std::map<int, Entity*>>* entitymap;
 	sf::Sprite sprite;
 	int width;
 	int height;

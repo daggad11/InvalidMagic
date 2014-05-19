@@ -1,6 +1,6 @@
 #include "object.hpp"
 
-Object::Object(sf::RenderWindow* window, int width, int height, int x, int y, std::string type, std::map<int, std::map<int, Entity*>>* tilemap) : Entity(window, width, height, x, y, mass, tilemap) {
+Object::Object(sf::RenderWindow* window, int width, int height, int x, int y, std::string type, std::map<int, std::map<int, Entity*>>* entitymap) : Entity(window, width, height, x, y, mass, entitymap) {
 	this->type = type;
 
 	if(type=="tree"){
@@ -18,7 +18,7 @@ Object::Object(sf::RenderWindow* window, int width, int height, int x, int y, st
 
 	for (int a = x; a < x + width; a++) {
 		for (int b = y; b < y + width; b++) {
-			(*tilemap)[a][b] = this;
+			(*entitymap)[a][b] = this;
 		} 
 	}
 

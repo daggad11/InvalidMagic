@@ -29,7 +29,7 @@ public:
 private:
 	Player *player;
 	std::vector<std::vector<Tile>> tiles;
-	std::map<int, std::map<int, Entity*>> tilemap; 
+	std::map<int, std::map<int, Entity*>> entitymap; 
 	std::vector<Object*> objects;
 	sf::RenderWindow* window;
 };

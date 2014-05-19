@@ -8,7 +8,7 @@ World::World(sf::RenderWindow* window, sf::View* view, bool hasSave) {
 	else 
 		generate(100, 100);
 	
-	player = new Player(window, 1, 1, 1, 1, 1, view, &tilemap);
+	player = new Player(window, 1, 1, 1, 1, 1, view, &entitymap);
 }
 
 World::~World(){
@@ -21,7 +21,7 @@ void World::populate(std::string type, int x1, int y1, int x2, int y2, int chanc
 	for (int a = x1; a <= x2; a++) {
 		for (int b = y1+1; b <= y2; b++) {
 			if (rand() % 100 + 1 <= chance) {
-				objects.push_back(new Object(window, 4, 4, a, b, type, &tilemap));
+				objects.push_back(new Object(window, 4, 4, a, b, type, &entitymap));
 			}
 		}
 	}
@@ -55,8 +55,8 @@ void World::draw()
 	//drawing entities
 	for (int a = player->getX() - dX; a < player->getX() + dX; a++) {
 		for (int b = player->getY() - dY; b < player->getY() + dY; b++) {
-			if (tilemap[a][b] != NULL)
-				tilemap[a][b]->draw();
+			if (entitymap[a][b] != NULL)
+				entitymap[a][b]->draw();
 		}
 	}
 }	
@@ -116,7 +116,7 @@ void World::load() {
 		file >> x;
 		file >> y;
 		file >> type;
-		objects.push_back(new Object(window, width, height, x, y, type, &tilemap));
+		objects.push_back(new Object(window, width, height, x, y, type, &entitymap));
 	}
 
 	file.close();

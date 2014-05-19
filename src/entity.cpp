@@ -6,14 +6,14 @@ Entity::Entity() {
 	//todo
 }
 
-Entity::Entity(sf::RenderWindow* window, int width, int height, int x, int y, int mass, std::map<int, std::map<int, Entity*>>* tilemap) {
+Entity::Entity(sf::RenderWindow* window, int width, int height, int x, int y, int mass, std::map<int, std::map<int, Entity*>>* entitymap) {
 	this->width = width;
 	this->height = height;
 	this->x = x;
 	this->y = y;
 	this->mass = mass;
 	this->window = window;
-	this->tilemap = tilemap;
+	this->entitymap = entitymap;
 }
 
 Entity::~Entity() {
