@@ -8,7 +8,7 @@ World::World(sf::RenderWindow* window, sf::View* view, bool hasSave) {
 	else 
 		generate(100, 100);
 	
-	player = new Player(window, 1, 1, 1, 1, 1, view, &entitymap);
+	player = new Player(window, 1, 1, 1, 1, view, &entitymap);
 }
 
 World::~World(){

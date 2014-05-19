@@ -8,7 +8,7 @@ class Creature : public Entity
 {
 public:
 	Creature();
-	Creature(sf::RenderWindow* window, int width, int height, int x, int y, int mass, std::map<int, std::map<int, Entity*>>* entitymap);
+	Creature(sf::RenderWindow* window, int width, int height, int x, int y, std::map<int, std::map<int, Entity*>>* entitymap);
 	~Creature();
 protected:
 	std::map<std::string, int> stat;
