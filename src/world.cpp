@@ -5,12 +5,37 @@ World::World(sf::RenderWindow* window, sf::View* view, bool hasSave) {
 	
 	if (hasSave)
 		load();
+	else 
+		generate(100, 100);
 	
 	player = new Player(window, 1, 1, 1, 1, 1, view, &tilemap);
 }
 
 World::~World(){
 	delete player;
+}
+
+void World::populate(std::string type, int x1, int y1, int x2, int y2, int chance) {
+	srand(time(NULL));
+
+	for (int a = x1; a <= x2; a++) {
+		for (int b = y1+1; b <= y2; b++) {
+			if (rand() % 100 + 1 <= chance) {
+				objects.push_back(new Object(window, 1, 1, a, b, type, &tilemap));
+			}
+		}
+	}
+
+}
+
+void World::generate(int width, int height) {
+	for (int a = 0; a < width; a++) {
+		tiles.push_back(std::vector<Tile>());
+		for (int b = 0; b < height; b++) {
+			tiles[a].push_back(Tile(window, a, b, Tile::tileSize, Tile::tileSize, "grass"));
+		}
+	}
+	populate("rock", 0, 0, width - 1, height - 1, 1);
 }
 
 void World::draw()

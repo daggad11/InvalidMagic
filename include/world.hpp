@@ -22,6 +22,10 @@ public:
 	~ World();
 	std::vector<std::vector<Tile>>* getTiles();
 	std::vector<Object*>* getObjects();
+
+	//generation functions
+	void generate(int width, int height);
+	void populate(std::string type, int x1, int y1, int x2, int y2, int chance);
 private:
 	Player *player;
 	std::vector<std::vector<Tile>> tiles;
