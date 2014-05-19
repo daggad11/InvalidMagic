@@ -3,6 +3,7 @@
 #include <cstdio>
 #include "world.hpp"
 #include "resources.hpp"
+#include <sstream>
 
 int Tile::tileSize;
 
@@ -31,7 +32,6 @@ int main(int argc, char* argv[]) {
 
 
   while (window.isOpen()) {
-		
 		sf::Event event;
 		while (window.pollEvent(event))
 		{	
@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
 		world.update();
 		//timer.restart();
     window.clear(sf::Color::Black);
-		world.draw();
+	world.draw();	
     window.display();
   }
   return 0;
