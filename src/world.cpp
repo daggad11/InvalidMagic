@@ -21,7 +21,7 @@ void World::populate(std::string type, int x1, int y1, int x2, int y2, int chanc
 	for (int a = x1; a <= x2; a++) {
 		for (int b = y1+1; b <= y2; b++) {
 			if (rand() % 100 + 1 <= chance) {
-				objects.push_back(new Object(window, 1, 1, a, b, type, &tilemap));
+				objects.push_back(new Object(window, 4, 4, a, b, type, &tilemap));
 			}
 		}
 	}

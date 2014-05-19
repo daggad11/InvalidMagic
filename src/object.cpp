@@ -15,7 +15,13 @@ Object::Object(sf::RenderWindow* window, int width, int height, int x, int y, st
 		texture = Resources::getTexture("rock");
 	}
 	initSprite();
-	(*tilemap)[x][y] = this;
+
+	for (int a = x; a < x + width; a++) {
+		for (int b = y; b < y + width; b++) {
+			(*tilemap)[a][b] = this;
+		} 
+	}
+
 }
 
 
