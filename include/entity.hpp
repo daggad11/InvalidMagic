@@ -10,7 +10,7 @@ class Entity
 {
 public:
 	Entity();
-	Entity(sf::RenderWindow* window, int width, int height, int x, int y, int mass, std::map<int, std::map<int, Entity*>>* entitymap);
+	Entity(sf::RenderWindow* window, int width, int height, int x, int y, std::map<int, std::map<int, Entity*>>* entitymap);
 	~ Entity();
 	void draw();
 
@@ -19,7 +19,6 @@ public:
 	int getY();
 	int getWidth();
 	int getHeight();
-	int getMass();
 protected:
 	sf::RenderWindow* window;
 	sf::Texture* texture;
@@ -29,7 +28,6 @@ protected:
 	int height;
 	int x;
 	int y;
-	int mass;
 	void initSprite();
 };
 #endif

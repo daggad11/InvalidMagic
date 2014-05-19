@@ -7,7 +7,7 @@ class Player : public Creature
 {
 public:
 	Player();
-	Player(sf::RenderWindow* window, int width, int height, int x, int y, int mass, sf::View* view, std::map<int, std::map<int, Entity*>>* entitymap);
+	Player(sf::RenderWindow* window, int width, int height, int x, int y, sf::View* view, std::map<int, std::map<int, Entity*>>* entitymap);
 	~Player();
 	void update(double time);
 	
