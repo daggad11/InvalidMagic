@@ -1,14 +1,14 @@
 #include "world.hpp"
 
-World::World(sf::RenderWindow* window, sf::View* view, bool hasSave) {
+World::World(sf::RenderWindow* window, sf::View* view, bool hasSave, sf::Clock timer) {
 	this->window = window;
-	
+	this->timer = &timer;	
 	if (hasSave)
 		load();
 	else 
 		generate(100, 100);
 	
-	player = new Player(window, 1, 1, 1, 1, view, &entitymap);
+	player = new Player(window, 1, 1, 1, 1, view, &entitymap, &timer);
 }
 
 World::~World(){
@@ -45,6 +45,8 @@ void World::generate(int width, int height) {
 	}
 	populate("rock", 0, 0, width - 1, height - 1, 1);
 	paint("dirt2", 0, 0, 99, 99, 1);
+
+	npcs.push_back(new NPC(window, 1, 1, 5, 5, &entitymap, timer));
 }
 
 void World::draw()
@@ -63,8 +65,15 @@ void World::draw()
 	}
 }	
 
-void World::update(double time) {
-	player->update(time);
+void World::update() {
+	int dX = window->getSize().x / Tile::tileSize/2 + 1;
+	int dY = window->getSize().y / Tile::tileSize/2 + 1;
+	for (int a = player->getX() - dX; a < player->getX() + dX; a++) {
+		for (int b = player->getY() - dY; b < player->getY() + dY; b++) {
+			if (entitymap[a][b] != NULL)
+				entitymap[a][b]->update();
+		}
+	}
 }
 
 Player* World::getPlayer()

@@ -21,12 +21,14 @@ int main(int argc, char* argv[]) {
 	Resources::init();
 
 	std::ifstream saveFile("data/world.save");
-	World world(&window, &view, saveFile);
+	World world(&window, &view, saveFile, timer);
 	saveFile.close();
-	
+
 	view.setCenter(world.getPlayer()->getX()*Tile::tileSize, world.getPlayer()->getY()*Tile::tileSize);
+
 	window.setView(view);
 	timer.restart();
+
 
   while (window.isOpen()) {
 		
@@ -64,8 +66,8 @@ int main(int argc, char* argv[]) {
 		//end of keyboard input
 
 		
-		world.update(timer.getElapsedTime().asSeconds());
-		timer.restart();
+		world.update();
+		//timer.restart();
     window.clear(sf::Color::Black);
 		world.draw();
     window.display();

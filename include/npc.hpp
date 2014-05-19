@@ -5,7 +5,8 @@
 class NPC : public Creature
 {
 public:
-	NPC(sf::RenderWindow* window, int width, int height, int x, int y, std::map<int, std::map<int, Entity*>>* entitymap);
-	~NPC();	
+	NPC(sf::RenderWindow* window, int width, int height, int x, int y, std::map<int, std::map<int, Entity*>>* entitymap, sf::Clock* timer);
+	~NPC();
+	void update();
 };
 #endif

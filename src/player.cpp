@@ -5,7 +5,7 @@ Player::Player() {
 	//todo
 }
 
-Player::Player(sf::RenderWindow* window, int width, int height, int x, int y, sf::View* view, std::map<int, std::map<int, Entity*>>* entitymap) : Creature(window, width, height, x, y, entitymap) {
+Player::Player(sf::RenderWindow* window, int width, int height, int x, int y, sf::View* view, std::map<int, std::map<int, Entity*>>* entitymap, sf::Clock* timer) : Creature(window, width, height, x, y, entitymap, timer) {
 	this->view = view;
 
 	moveUp = false;
@@ -44,9 +44,10 @@ void Player::setMovementState(bool up, bool down, bool right, bool left) {
 	moveLeft = left;
 }
 
-void Player::update(double time) {
-	moveTimer += time;
-	if ((moveUp || moveDown || moveLeft || moveRight) && moveTimer >= 0.1-stat["speed"]/2000) {
+void Player::update() {
+	moveTimer += timer->getElapsedTime().asSeconds();
+	std::cout << timer->getElapsedTime().asSeconds() << std::endl;
+	if ((moveUp || moveDown || moveLeft || moveRight) && moveTimer >= 1.0/(float)stat["speed"]) {
 		(*entitymap)[x][y] = NULL;
 		move(entitymap);
 		moveTimer = 0;

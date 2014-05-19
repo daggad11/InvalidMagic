@@ -8,9 +8,11 @@ class Creature : public Entity
 {
 public:
 	Creature();
-	Creature(sf::RenderWindow* window, int width, int height, int x, int y, std::map<int, std::map<int, Entity*>>* entitymap);
+	Creature(sf::RenderWindow* window, int width, int height, int x, int y, std::map<int, std::map<int, Entity*>>* entitymap, sf::Clock* timer);
 	~Creature();
+	virtual void update()=0;
 protected:
+	sf::Clock* timer;
 	std::map<std::string, int> stat;
 };
 #endif

@@ -1,6 +1,6 @@
 CC=g++
 CFLAGS= -Iinclude/ -Llib/SFML/ -lsfml-graphics -lsfml-window -lsfml-system -Wl,-rpath,\$$ORIGIN/../lib/SFML/ -g -std=c++11
-OBJECTS= build/game.o build/entity.o build/creature.o build/player.o build/world.o build/tile.o build/object.o build/npc.o build/resources.o
+OBJECTS= build/game.o build/entity.o build/creature.o build/player.o build/world.o build/tile.o build/object.o build/npc.o build/resources.o build/item.o
 
 all: bin/game
 
@@ -15,6 +15,9 @@ build/resources.o: src/resources.cpp include/resources.hpp
 
 build/tile.o: src/tile.cpp include/tile.hpp
 	$(CC) src/tile.cpp $(CFLAGS) -c -o build/tile.o
+
+build/item.o: src/item.cpp include/item.hpp
+	$(CC) src/item.cpp $(CFLAGS) -c -o build/item.o
 
 build/entity.o: src/entity.cpp include/entity.hpp build/tile.o build/resources.o
 	$(CC) src/entity.cpp $(CFLAGS) -c -o build/entity.o

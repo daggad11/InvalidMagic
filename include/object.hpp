@@ -17,6 +17,7 @@ public:
 	void setType(std::string t);
 	void breakThisObject(int reducedBy);//this method takes in the players damage as an arg and decreases durability until it hits 0.
 	~Object();
+	void update();
 private:
 	bool movable;
 	bool solid;

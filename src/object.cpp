@@ -13,6 +13,7 @@ Object::Object(sf::RenderWindow* window, int width, int height, int x, int y, st
 		durability = 9001;
 		mass = 500;
 		texture = Resources::getTexture("rock");
+		sprite.setColor(sf::Color(100, 100, 100));
 	}
 	initSprite();
 
@@ -57,4 +58,8 @@ void Object::breakThisObject(int reducedBy){
 }
 Object::~Object(){
 	//todo
+}
+
+void Object::update() {
+	//do nothing
 }

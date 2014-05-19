@@ -19,6 +19,7 @@ public:
 	int getY();
 	int getWidth();
 	int getHeight();
+	virtual void update() = 0;
 protected:
 	sf::RenderWindow* window;
 	sf::Texture* texture;
