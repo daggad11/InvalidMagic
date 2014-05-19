@@ -2,6 +2,7 @@
 #include <fstream>
 #include "world.hpp"
 #include "resources.hpp"
+#include <sstream>
 
 int Tile::tileSize;
 
@@ -22,45 +23,42 @@ int main() {
 	timer.restart();
 
   while (window.isOpen()) {
-		
-		sf::Event event;
-		while (window.pollEvent(event))
-		{	
-			if (event.type == sf::Event::Closed)
-				window.close();	
-		}
-		//keyboard input
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-			world.save();
-			window.close();
-		}
-		//player movement
-		bool up, down, left, right;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-			up = true;
-		}
-		else
-			up = false;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-			down = true;
-		else
-			down = false;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-			right = true;
-		else
-			right = false;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-			left = true;
-		else
-			left = false;
-		world.getPlayer()->setMovementState(up, down, right, left);
-		//end of keyboard input
-
-		
-		world.update(timer.getElapsedTime().asSeconds());
-		timer.restart();
+	sf::Event event;
+	while (window.pollEvent(event))
+	{	
+		if (event.type == sf::Event::Closed)
+			window.close();	
+	}
+	//keyboard input
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+		world.save();
+		window.close();
+	}
+	//player movement
+	bool up, down, left, right;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+		up = true;
+	}
+	else
+		up = false;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		down = true;
+	else
+		down = false;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		right = true;
+	else
+		right = false;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		left = true;
+	else
+		left = false;
+	world.getPlayer()->setMovementState(up, down, right, left);
+	//end of keyboard input
+	world.update(timer.getElapsedTime().asSeconds());
+	timer.restart();
     window.clear(sf::Color::Black);
-		world.draw();
+	world.draw();	
     window.display();
   }
   return 0;
