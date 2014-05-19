@@ -46,7 +46,6 @@ void Player::setMovementState(bool up, bool down, bool right, bool left) {
 
 void Player::update() {
 	moveTimer += timer->getElapsedTime().asSeconds();
-	std::cout << timer->getElapsedTime().asSeconds() << std::endl;
 	if ((moveUp || moveDown || moveLeft || moveRight) && moveTimer >= 1.0/(float)stat["speed"]) {
 		(*entitymap)[x][y] = NULL;
 		move(entitymap);

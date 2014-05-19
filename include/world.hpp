@@ -14,7 +14,7 @@ class World
 {
 public:
 	 World();
-	 World(sf::RenderWindow* window, sf::View* view, bool hasSave, sf::Clock timer);
+	 World(sf::RenderWindow* window, sf::View* view, bool hasSave, sf::Clock* timer);
 	 void draw();
 	 void update();
 	 void save();

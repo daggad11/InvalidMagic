@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
 	Resources::init();
 
 	std::ifstream saveFile("data/world.save");
-	World world(&window, &view, saveFile, timer);
+	World world(&window, &view, saveFile, &timer);
 	saveFile.close();
 
 	view.setCenter(world.getPlayer()->getX()*Tile::tileSize, world.getPlayer()->getY()*Tile::tileSize);
@@ -67,7 +67,7 @@ int main(int argc, char* argv[]) {
 
 		
 		world.update();
-		//timer.restart();
+		timer.restart();
     window.clear(sf::Color::Black);
 	world.draw();	
     window.display();

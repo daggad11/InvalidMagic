@@ -1,14 +1,14 @@
 #include "world.hpp"
 
-World::World(sf::RenderWindow* window, sf::View* view, bool hasSave, sf::Clock timer) {
+World::World(sf::RenderWindow* window, sf::View* view, bool hasSave, sf::Clock* timer) {
 	this->window = window;
-	this->timer = &timer;	
+	this->timer = timer;	
 	if (hasSave)
 		load();
 	else 
 		generate(100, 100);
 	
-	player = new Player(window, 1, 1, 1, 1, view, &entitymap, &timer);
+	player = new Player(window, 1, 1, 1, 1, view, &entitymap, timer);
 }
 
 World::~World(){
