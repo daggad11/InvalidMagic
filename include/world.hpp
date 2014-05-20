@@ -23,7 +23,7 @@ public:
 	~ World();
 
 	//generation functions
-	void generate(int width, int height);
+	void generate(int width, int height, int arrayX, int arrayY);
 	void populate(std::string type, int x1, int y1, int x2, int y2, int chance);
 	void paint(std::string type, int x1, int y1, int x2, int y2, int chance);
 private:
