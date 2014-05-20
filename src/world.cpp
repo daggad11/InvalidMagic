@@ -45,8 +45,17 @@ void World::generate(int width, int height) {
 	}
 	populate("rock", 0, 0, width - 1, height - 1, 1);
 	paint("dirt2", 0, 0, 99, 99, 1);
-
-	npcs.push_back(new NPC(window, 1, 1, 5, 5, &entitymap, timer, "cow"));
+	
+	//creating cows
+	int count = 0;
+	while (count < 20) {
+		int tempx = rand() % width;
+		int tempy = rand() % height;
+		if (isClear(tempx, tempy, tempx, tempy+1)) {
+			npcs.push_back(new NPC(window, 1, 2, tempx, tempy, &entitymap, timer, "cow"));
+			count++;
+		}
+	}
 }
 
 void World::draw()
@@ -85,5 +94,15 @@ void World::save() {
 }
 
 void World::load() {
+}
+
+bool World::isClear(int x1, int y1, int x2, int y2) {
+	for (int a = x1; a < x2; a++) {
+		for (int b = y1; b < y2; b++) {
+			if (entitymap[a][b] != NULL)
+				return false;
+		}
+	}
+	return true;
 }
 

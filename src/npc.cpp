@@ -3,14 +3,14 @@
 
 NPC::NPC(sf::RenderWindow* window, int width, int height, int x, int y, std::map<int, std::map<int, Entity*>>* entitymap, sf::Clock* timer, std::string type) : Creature(window, width, height, x, y, entitymap, timer){
 	texture = Resources::getTexture("npc");
-	initSprite();
-	(*entitymap)[x][y] = this;
+	updateOnMap();
 	moveTimer = 0;
 	moveTime = 0;
 
 	if (type == "cow") {
 		realUpdate = &NPC::cowUpdate;
 	}
+	initSprite();
 }
 
 NPC::~NPC(){
@@ -25,11 +25,11 @@ void NPC::cowUpdate() {
 	else if (moveTimer > moveTime) {
 		int tempx = x + rand() % 3 - 1;
 		int tempy = y + rand() % 3 - 1;
-		if ((*entitymap)[tempx][tempy] == NULL) {
-			(*entitymap)[x][y] = NULL;
+		if (isClear(tempx, tempy, tempx+width, tempy+height)) {
+			removeFromMap();
 			x = tempx;
 			y = tempy;
-			(*entitymap)[tempx][tempy] = this;
+			updateOnMap();
 			moveTime = 0;
 			moveTimer = 0;
 			sprite.setPosition(x*Tile::tileSize, y*Tile::tileSize);

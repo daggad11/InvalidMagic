@@ -30,6 +30,8 @@ protected:
 	int x;
 	int y;
 	void initSprite();
-	void updateMap();
+	void removeFromMap();
+	void updateOnMap();
+	bool isClear(int x1, int y1, int x2, int y2);
 };
 #endif

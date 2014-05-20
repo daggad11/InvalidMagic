@@ -34,5 +34,6 @@ private:
 	std::vector<Object*> objects;
 	std::vector<NPC*> npcs;
 	sf::RenderWindow* window;
+	bool isClear(int x1, int y1, int x2, int y2);
 };
 #endif

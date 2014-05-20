@@ -29,6 +29,32 @@ void Entity::initSprite() {
 	sprite.setTexture(*texture);
 }
 
+void Entity::updateOnMap() {
+	for (int a = x; a < x + width; a++) {
+		for (int b = y; b < y + height; b++) {
+			(*entitymap)[a][b] = this;
+		}
+	}
+}
+
+void Entity::removeFromMap() {
+	for (int a = x; a < x + width; a++) {
+		for (int b = y; b < y + height; b++) {
+			(*entitymap)[a][b] = NULL;
+		}
+	}
+}
+
+bool Entity::isClear(int x1, int y1, int x2, int y2) {
+	for (int a = x1; a < x2; a++) {
+		for (int b = y1; b < y2; b++) {
+			if ((*entitymap)[a][b] != NULL)
+				return false;
+		}
+	}
+	return true;
+}
+
 //getters
 int Entity::getX() { return x; }
 int Entity::getY() { return y; } 
