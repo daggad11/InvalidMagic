@@ -19,9 +19,10 @@ int main(int argc, char* argv[]) {
 	sf::Clock timer;
 	sf::View view(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
 	sf::Font font;
-	font.loadFromFile("../resources/arial.ttf");
+	font.loadFromFile("resources/arial.ttf");
 	sf::Text text;
 	text.setFont(font);
+	text.setColor(sf::Color::White);
 	std::stringstream s;
 
 	timer.restart();
