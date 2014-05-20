@@ -36,6 +36,7 @@ int main(int argc, char* argv[]) {
 		while (window.pollEvent(event))
 		{	
 			if (event.type == sf::Event::Closed)
+				world.save();
 				window.close();	
 		}
 		//keyboard input
@@ -45,9 +46,8 @@ int main(int argc, char* argv[]) {
 		}
 		//player movement
 		bool up, down, left, right;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 			up = true;
-		}
 		else
 			up = false;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
