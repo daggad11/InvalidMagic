@@ -10,7 +10,6 @@ public:
 	Player(sf::RenderWindow* window, int width, int height, int x, int y, sf::View* view, std::map<int, std::map<int, Entity*>>* entitymap, sf::Clock* timer);
 	~Player();
 	void update();
-	
 	//setters
 	void setMovementState(bool up, bool down, bool right, bool left);
 private:
