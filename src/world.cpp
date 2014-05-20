@@ -37,11 +37,15 @@ void World::paint(std::string type, int x1, int y1, int x2, int y2, int chance) 
 }
 
 void World::generate(int mapX, int mapY) {
-	std::map<int, std::map<int, Tile*>> map;
-	tilemaps[1][1] = map;
-	for (int a = 0; a < 100; a++) {
-		for (int b = 0; b < 100; b++) {
-			tilemaps[1][1][a][b] = new Tile(window, a, b, Tile::tileSize, Tile::tileSize, "grass");
+	for (int a = 0; a < 3; a++) {
+		for (int b = 0; b < 3; b++) {
+			std::map<int, std::map<int, Tile*>> map;
+			tilemaps[a][b] = map;
+			for (int c = 0; c < 100; c++) {
+				for (int d = 0; d < 100; d++) {
+					tilemaps[a][b][c][d] = new Tile(window, c, d, Tile::tileSize, Tile::tileSize, "grass");
+				}
+			}
 		}
 	}
 }
@@ -54,8 +58,12 @@ void World::draw()
 	//drawing entities & tilemap
 	for (int a = player->getX() - dX; a < player->getX() + dX; a++) {
 		for (int b = player->getY() - dY; b < player->getY() + dY; b++) {
-			if (tilemaps[1][1][a][b] != NULL) 
-				tilemaps[1][1][a][b]->draw();
+			for (int c = 0; c < 3; c++) {
+				for (int d = 0; d < 3; d++) {
+					if (tilemaps[c][d][a][b] != NULL) 
+						tilemaps[c][d][a][b]->draw();
+					}
+				}
 			if (entitymap[a][b] != NULL)
 				entitymap[a][b]->draw();
 		}
