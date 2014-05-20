@@ -35,9 +35,10 @@ int main(int argc, char* argv[]) {
 		sf::Event event;
 		while (window.pollEvent(event))
 		{	
-			if (event.type == sf::Event::Closed)
+			if (event.type == sf::Event::Closed) {
 				world.save();
 				window.close();	
+			}
 		}
 		//keyboard input
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
