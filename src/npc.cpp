@@ -1,19 +1,23 @@
 #include "npc.hpp"
 #include <iostream>
 
-NPC::NPC(sf::RenderWindow* window, int width, int height, int x, int y, std::map<int, std::map<int, Entity*>>* entitymap, sf::Clock* timer) : Creature(window, width, height, x, y, entitymap, timer){
+NPC::NPC(sf::RenderWindow* window, int width, int height, int x, int y, std::map<int, std::map<int, Entity*>>* entitymap, sf::Clock* timer, std::string type) : Creature(window, width, height, x, y, entitymap, timer){
 	texture = Resources::getTexture("npc");
 	initSprite();
 	(*entitymap)[x][y] = this;
 	moveTimer = 0;
 	moveTime = 0;
+
+	if (type == "cow") {
+		realUpdate = &NPC::cowUpdate;
+	}
 }
 
 NPC::~NPC(){
 	//todo
 }
 
-void NPC::update() {
+void NPC::cowUpdate() {
 	srand(time(NULL));
 	moveTimer += timer->getElapsedTime().asSeconds();
 	if (moveTime == 0)
@@ -31,6 +35,9 @@ void NPC::update() {
 			sprite.setPosition(x*Tile::tileSize, y*Tile::tileSize);
 		}	
 	}
+}
 
+void NPC::update() {
+	(this->*realUpdate)();
 }
 

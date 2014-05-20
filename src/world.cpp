@@ -46,7 +46,7 @@ void World::generate(int width, int height) {
 	populate("rock", 0, 0, width - 1, height - 1, 1);
 	paint("dirt2", 0, 0, 99, 99, 1);
 
-	npcs.push_back(new NPC(window, 1, 1, 5, 5, &entitymap, timer));
+	npcs.push_back(new NPC(window, 1, 1, 5, 5, &entitymap, timer, "cow"));
 }
 
 void World::draw()

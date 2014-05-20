@@ -30,5 +30,6 @@ protected:
 	int x;
 	int y;
 	void initSprite();
+	void updateMap();
 };
 #endif
