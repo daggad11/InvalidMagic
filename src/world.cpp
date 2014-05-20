@@ -6,7 +6,11 @@ World::World(sf::RenderWindow* window, sf::View* view, bool hasSave, sf::Clock* 
 	mapSize = 100;
 	
 
-	generate(3, 3);
+	for (int a = 0; a < 3; a++) {
+		for (int b = 0; b < 3; b++) {
+			generate(a-1, b-1, a, b);
+		}
+	}
 	player = new Player(window, 1, 1, 1, 1, view, &entitymap, timer);
 }
 
@@ -36,16 +40,10 @@ void World::paint(std::string type, int x1, int y1, int x2, int y2, int chance) 
 	}
 }
 
-void World::generate(int mapX, int mapY) {
-	for (int a = 0; a < 3; a++) {
-		for (int b = 0; b < 3; b++) {
-			std::map<int, std::map<int, Tile*>> map;
-			tilemaps[a][b] = map;
-			for (int c = 0; c < 100; c++) {
-				for (int d = 0; d < 100; d++) {
-					tilemaps[a][b][c][d] = new Tile(window, c, d, Tile::tileSize, Tile::tileSize, "grass");
-				}
-			}
+void World::generate(int mapX, int mapY, int arrayX, int arrayY) {
+	for (int a = mapX*mapSize; a < mapX*mapSize+mapSize; a++) {
+		for (int b = mapY*mapSize; b < mapY*mapSize+mapSize; b++) {
+			tilemaps[arrayX][arrayY][a][b] = new Tile(window, a, b, Tile::tileSize, Tile::tileSize, "grass");
 		}
 	}
 }
@@ -69,7 +67,6 @@ void World::draw()
 		}
 	}
 	//entitymap[1][1]->draw();
-	std::cout << entitymap[2][1] << std::endl;
 }	
 
 void World::update() {
