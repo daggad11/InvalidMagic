@@ -15,7 +15,7 @@ Tile::Tile(sf::RenderWindow* window, int x, int y, int width, int height, std::s
 	this->height = height;
 	this->x = x;
 	this->y = y;
-	this->t = Resources::getTexture(type);
+	this->texture = Resources::getTexture(type);
 	this->type = type;
 
 	generateArray();
@@ -23,11 +23,11 @@ Tile::Tile(sf::RenderWindow* window, int x, int y, int width, int height, std::s
 
 void Tile::generateArray()
 {
-  v = sf::VertexArray(sf::Quads, 4);
-	v[0] = sf::Vertex(sf::Vector2f(x*width, y*height), sf::Vector2f(0, 0));
-	v[1] = sf::Vertex(sf::Vector2f((x+1)*width, y*height), sf::Vector2f(t->getSize().x, 0));
-	v[2] = sf::Vertex(sf::Vector2f((x+1)*width, (y+1)*height), sf::Vector2f(t->getSize().x, t->getSize().y));
-	v[3] = sf::Vertex(sf::Vector2f(x*width, (y+1)*height), sf::Vector2f(0, t->getSize().y));
+  	vertices = sf::VertexArray(sf::Quads, 4);
+	vertices[0] = sf::Vertex(sf::Vector2f(x*width, y*height), sf::Vector2f(0, 0));
+	vertices[1] = sf::Vertex(sf::Vector2f((x+1)*width, y*height), sf::Vector2f(texture->getSize().x, 0));
+	vertices[2] = sf::Vertex(sf::Vector2f((x+1)*width, (y+1)*height), sf::Vector2f(texture->getSize().x, t->getSize().y));
+	vertices[3] = sf::Vertex(sf::Vector2f(x*width, (y+1)*height), sf::Vector2f(0, texture->getSize().y));
 }
 
 void Tile::draw()
@@ -35,9 +35,9 @@ void Tile::draw()
 	window->draw(v, t);
 }
 
-void Tile::setTexture(sf::Texture* t)
+void Tile::setTexture(sf::Texture* texture)
 {
-	this->t = t;
+	this->texture = texture;
 }
 
 std::string Tile::getType() {

@@ -14,8 +14,8 @@ public:
 	static int tileSize;
 private:
 	void generateArray();
-	sf::VertexArray v;
-	sf::Texture* t;
+	sf::VertexArray vertices;
+	sf::Texture* texture;
 	sf::RenderWindow* window; 
 	int width;
 	int height;
