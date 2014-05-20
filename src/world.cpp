@@ -2,12 +2,11 @@
 
 World::World(sf::RenderWindow* window, sf::View* view, bool hasSave, sf::Clock* timer) {
 	this->window = window;
-	this->timer = timer;	
-	if (hasSave)
-		load();
-	else 
-		generate(100, 100);
+	this->timer = timer;
+	mapSize = 100;
 	
+
+	generate(3, 3);
 	player = new Player(window, 1, 1, 1, 1, view, &entitymap, timer);
 }
 
@@ -37,23 +36,12 @@ void World::paint(std::string type, int x1, int y1, int x2, int y2, int chance) 
 	}
 }
 
-void World::generate(int width, int height) {
-	for (int a = 0; a < width; a++) {
-		for (int b = 0; b < height; b++) {
-			tilemap[a][b] = new Tile(window, a, b, Tile::tileSize, Tile::tileSize, "dirt1");
-		}
-	}
-	populate("rock", 0, 0, width - 1, height - 1, 1);
-	paint("dirt2", 0, 0, 99, 99, 1);
-	
-	//creating cows
-	int count = 0;
-	while (count < 20) {
-		int tempx = rand() % width;
-		int tempy = rand() % height;
-		if (isClear(tempx, tempy, tempx, tempy+1)) {
-			npcs.push_back(new NPC(window, 1, 2, tempx, tempy, &entitymap, timer, "cow"));
-			count++;
+void World::generate(int mapX, int mapY) {
+	std::map<int, std::map<int, Tile*>> map;
+	tilemaps[1][1] = map;
+	for (int a = 0; a < 100; a++) {
+		for (int b = 0; b < 100; b++) {
+			tilemaps[1][1][a][b] = new Tile(window, a, b, Tile::tileSize, Tile::tileSize, "grass");
 		}
 	}
 }
@@ -66,12 +54,14 @@ void World::draw()
 	//drawing entities & tilemap
 	for (int a = player->getX() - dX; a < player->getX() + dX; a++) {
 		for (int b = player->getY() - dY; b < player->getY() + dY; b++) {
-			if (tilemap[a][b] != NULL)
-				tilemap[a][b]->draw();
+			if (tilemaps[1][1][a][b] != NULL) 
+				tilemaps[1][1][a][b]->draw();
 			if (entitymap[a][b] != NULL)
 				entitymap[a][b]->draw();
 		}
 	}
+	//entitymap[1][1]->draw();
+	std::cout << entitymap[2][1] << std::endl;
 }	
 
 void World::update() {
