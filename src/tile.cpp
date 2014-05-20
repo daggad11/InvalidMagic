@@ -32,7 +32,7 @@ void Tile::generateArray()
 
 void Tile::draw()
 {
-	window->draw(v, t);
+	window->draw(vertices, texture);
 }
 
 void Tile::setTexture(sf::Texture* texture)

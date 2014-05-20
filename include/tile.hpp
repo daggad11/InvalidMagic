@@ -8,7 +8,7 @@ public:
 	Tile();
 	Tile(sf::RenderWindow* window, int x, int y, int width, int height, std::string type);
 	~Tile();
-	void setTexture(sf::Texture* t);
+	void setTexture(sf::Texture* texture);
 	void draw();
 	std::string getType();
 	static int tileSize;
