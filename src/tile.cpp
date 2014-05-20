@@ -26,7 +26,7 @@ void Tile::generateArray()
   	vertices = sf::VertexArray(sf::Quads, 4);
 	vertices[0] = sf::Vertex(sf::Vector2f(x*width, y*height), sf::Vector2f(0, 0));
 	vertices[1] = sf::Vertex(sf::Vector2f((x+1)*width, y*height), sf::Vector2f(texture->getSize().x, 0));
-	vertices[2] = sf::Vertex(sf::Vector2f((x+1)*width, (y+1)*height), sf::Vector2f(texture->getSize().x, t->getSize().y));
+	vertices[2] = sf::Vertex(sf::Vector2f((x+1)*width, (y+1)*height), sf::Vector2f(texture->getSize().x, texture->getSize().y));
 	vertices[3] = sf::Vertex(sf::Vector2f(x*width, (y+1)*height), sf::Vector2f(0, texture->getSize().y));
 }
 
