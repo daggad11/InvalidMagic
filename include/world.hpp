@@ -41,6 +41,7 @@ private:
 	sf::RenderWindow* window;
 	bool isClear(int x1, int y1, int x2, int y2);
 	bool mapSynced();
+	sf::Vector2<int> currentMap();
 	void updateMaps(int x, int y);
 	bool mapExists(int mapX, int mapY);
 };

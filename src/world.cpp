@@ -5,16 +5,21 @@ World::World(sf::RenderWindow* window, sf::View* view, bool hasSave, sf::Clock* 
 	this->timer = timer;
 	this->x = 0;
 	this->y = 0;
-	mapSize = 100;
-	
+	mapSize = 10;
 
+	//loading from file if it exists else generates first 3x3
+	std::ifstream isFile("data/world00");
 	for (int a = 0; a < 3; a++) {
 		for (int b = 0; b < 3; b++) {
-			load(a-1, b-1, a, b);
+			if (isFile)
+				load(a-1, b-1, a, b);
+			else
+				generate(a-1, b-1, a, b);
 		}
 	}
-	player = new Player(window, 1, 1, 1, 1, view, &entitymap, timer);
+	isFile.close();
 
+	player = new Player(window, 1, 1, 1, 1, view, &entitymap, timer);
 }
 
 World::~World(){
@@ -53,7 +58,6 @@ void World::generate(int mapX, int mapY, int arrayX, int arrayY) {
 			tilemaps[arrayX][arrayY][a][b] = new Tile(window, a, b, Tile::tileSize, Tile::tileSize, type);
 		}
 	}
-
 	save(mapX, mapY, arrayX, arrayY);
 }
 
@@ -75,8 +79,8 @@ void World::draw()
 				entitymap[a][b]->draw();
 		}
 	}
-	//entitymap[1][1]->draw();
 }	
+
 
 void World::update() {
 	int dX = window->getSize().x / Tile::tileSize/2 + 1;
@@ -88,10 +92,9 @@ void World::update() {
 		}
 	}
 	if (!mapSynced()) {
-		std::cout << "stuff" << std::endl;
-		updateMaps(player->getX()/mapSize, player->getY()/mapSize);
+
+		updateMaps(currentMap().x, currentMap().y);
 	}
-	std::cout << player->getX() << " " << player->getY() << std::endl;
 }
 
 Player* World::getPlayer()
@@ -102,9 +105,10 @@ Player* World::getPlayer()
 void World::save(int mapX, int mapY, int arrayX, int arrayY) {
 	std::string filename = "data/world"+std::to_string(mapX)+std::to_string(mapY);
 	std::ofstream file(filename);
-	for (auto pair : tilemaps[arrayX][arrayY]) {
-		for (auto tile : pair.second) {
-			file << tile.second->getType() << " " << tile.second->getX() << " " << tile.second->getY() << std::endl;
+	for (int a = mapX*mapSize; a < mapX*mapSize+mapSize; a++) {
+		for (int b = mapY*mapSize; b < mapY*mapSize+mapSize; b++) {
+			Tile* tile = tilemaps[arrayX][arrayY][a][b];
+			file << tile->getType() << " " << tile->getX() << " " << tile->getY() << std::endl;
 		}
 	}
 	file.close();
@@ -136,10 +140,20 @@ bool World::isClear(int x1, int y1, int x2, int y2) {
 	return true;
 }
 
+sf::Vector2<int> World::currentMap() {
+	int playerx = player->getX();
+	int playery = player->getY();
+
+	if (playerx < 0)
+		playerx -= mapSize;
+	if (playery < 0)
+		playery -= mapSize;
+	return sf::Vector2<int>(playerx/mapSize, playery/mapSize);
+}
+
 bool World::mapSynced() {
-	int mapx = player->getX()/mapSize;
-	int mapy = player->getY()/mapSize;
-	if (mapx == x && mapy == y)	
+
+	if (x == currentMap().x && y == currentMap().y)	
 		return true;
 	return false;
 }
@@ -153,15 +167,21 @@ bool World::mapExists(int mapX, int mapY) {
 	return exists;
 }
 
-void World::updateMaps(int x, int y) {
+void World::updateMaps(int newx, int newy) {
 	for (int a = 0; a < 3; a++) {
 		for (int b = 0; b < 3; b++) {
-			if (mapExists(x-a-1, y-b-1))
-				load(x-a-1, y-b-1, a, b);
+			if (mapExists(newx+a-1, newy+b-1))
+				load(newx+a-1, newy+b-1, a, b);
 			else
-				generate(x-a-1, y-b-1, a, b);
+				generate(newx+a-1, newy+b-1, a, b);
 		}
 	}
+
+	std::cout << "old " << x << " " << y << std::endl;
+	std::cout << "new " << newx << " " << newy << std::endl;
+	x = newx;
+	y = newy;
 }
+
 
 
