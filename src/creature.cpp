@@ -10,7 +10,7 @@ Creature::Creature(sf::RenderWindow* window, int width, int height, int x, int y
 	stat["dexterity"] = 10;
 	stat["stamina"] = 10;
 	stat["health"] = 100;
-	
+
 }
 
 void Creature::setStat(std::string type, int newValue){

@@ -30,6 +30,7 @@ private:
 	int mapSize;
 	sf::Clock* timer;
 	Player *player;
+	NPC *wolfie;
 	std::map<int, std::map<int, Tile*>> tilemap;
 	std::map<int, std::map<int, Entity*>> entitymap; 
 	std::vector<Object*> objects;

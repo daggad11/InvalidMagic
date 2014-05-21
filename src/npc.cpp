@@ -13,6 +13,7 @@ NPC::NPC(sf::RenderWindow* window, int width, int height, int x, int y, std::map
 	}
 	else if (type == "wolf"){
 		realUpdate = &NPC::wolfUpdate;
+
 	}
 	initSprite();
 }
@@ -49,16 +50,18 @@ void NPC::cowUpdate() {
 void NPC::wolfUpdate(){
 	srand(time(NULL));
 	moveTimer += timer->getElapsedTime().asSeconds();
-	if(moveTimer > 1.0) {
+	if(moveTimer > 3.0) {
 		int tmpX = 0;
 		int tmpY = 0;
 		for (int i = 0; i < 5; i++){
 			for (int j = 0; j < 5; j++){
-				if((*entitymap)[i][j]->getDataType() == "player"){
-					isAggro = true;
-					tmpX = i;
-					tmpY = j;
-				}//records the coords of a player to move towards. 
+				if((*entitymap)[i][j] != NULL){
+					if((*entitymap)[i][j]->getDataType() == "player"){
+						isAggro = true;
+						tmpX = i;
+						tmpY = j;
+					}//records the coords of a player to move towards. 
+				}
 			}
 		}
 		if(isAggro == true){
@@ -72,7 +75,9 @@ void NPC::wolfUpdate(){
 		}//this increments towards a player!
 
 		isAggro = false;
+		moveTimer = 0;
 	}
+
 }
 
 void NPC::update() {
