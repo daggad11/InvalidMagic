@@ -87,7 +87,11 @@ void World::update() {
 				entitymap[a][b]->update();
 		}
 	}
-
+	if (!mapSynced()) {
+		std::cout << "stuff" << std::endl;
+		updateMaps(player->getX()/mapSize, player->getY()/mapSize);
+	}
+	std::cout << player->getX() << " " << player->getY() << std::endl;
 }
 
 Player* World::getPlayer()
@@ -132,9 +136,32 @@ bool World::isClear(int x1, int y1, int x2, int y2) {
 	return true;
 }
 
-sf::Vector2<int> World::currentMap() {
+bool World::mapSynced() {
 	int mapx = player->getX()/mapSize;
 	int mapy = player->getY()/mapSize;
-	return sf::Vector2<int>(mapx, mapy);
+	if (mapx == x && mapy == y)	
+		return true;
+	return false;
 }
+
+bool World::mapExists(int mapX, int mapY) {
+	bool exists;
+	std::string filename = "data/world" + std::to_string(mapX) + std::to_string(mapY);
+	std::ifstream file(filename);
+	exists = file;
+	file.close();
+	return exists;
+}
+
+void World::updateMaps(int x, int y) {
+	for (int a = 0; a < 3; a++) {
+		for (int b = 0; b < 3; b++) {
+			if (mapExists(x-a-1, y-b-1))
+				load(x-a-1, y-b-1, a, b);
+			else
+				generate(x-a-1, y-b-1, a, b);
+		}
+	}
+}
+
 
