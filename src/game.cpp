@@ -100,7 +100,7 @@ int main(int argc, char* argv[]) {
 		// Determine FPS //
 		///////////////////
 		s.str("");
-		s << "FPS:" << (int)(1.0/(timer.restart()).asSeconds());
+		s << "FPS:" << (int)(1.0/(timer.restart()).asSeconds()) << "\nTest";
 	    text.setString(s.str());
 	    text.setPosition(view.getCenter().x - window.getSize().x/2, view.getCenter().y - window.getSize().y/2);
 	    
