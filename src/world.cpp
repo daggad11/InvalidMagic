@@ -5,7 +5,7 @@ World::World(sf::RenderWindow* window, sf::View* view, bool hasSave, sf::Clock* 
 	this->timer = timer;
 	this->x = 0;
 	this->y = 0;
-	mapSize = 10;
+	mapSize = 20;
 
 	//loading from file if it exists else generates first 3x3
 	std::ifstream isFile("data/world00");
@@ -170,6 +170,7 @@ bool World::mapExists(int mapX, int mapY) {
 void World::updateMaps(int newx, int newy) {
 	for (int a = 0; a < 3; a++) {
 		for (int b = 0; b < 3; b++) {
+			tilemaps[a][b].clear();
 			if (mapExists(newx+a-1, newy+b-1))
 				load(newx+a-1, newy+b-1, a, b);
 			else
@@ -177,8 +178,6 @@ void World::updateMaps(int newx, int newy) {
 		}
 	}
 
-	std::cout << "old " << x << " " << y << std::endl;
-	std::cout << "new " << newx << " " << newy << std::endl;
 	x = newx;
 	y = newy;
 }
