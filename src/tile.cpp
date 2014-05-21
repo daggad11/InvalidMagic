@@ -43,3 +43,11 @@ void Tile::setTexture(sf::Texture* texture)
 std::string Tile::getType() {
 	return type;
 }
+
+int Tile::getX() {
+	return x;
+}
+
+int Tile::getY() {
+	return y;
+}

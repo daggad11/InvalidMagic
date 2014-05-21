@@ -17,8 +17,8 @@ public:
 	 World(sf::RenderWindow* window, sf::View* view, bool hasSave, sf::Clock* timer);
 	 void draw();
 	 void update();
-	 void save();
-	 void load();
+	 void save(int mapX, int mapY, int arrayX, int arrayY);
+	 void load(int mapX, int mapY, int arrayX, int arrayY);
 	 Player* getPlayer();
 	~ World();
 
@@ -28,6 +28,8 @@ public:
 	void paint(std::string type, int x1, int y1, int x2, int y2, int chance);
 private:
 	int mapSize;
+	int x;
+	int y;
 	sf::Clock* timer;
 	Player *player;
 	std::map<int, std::map<int, Tile*>> tilemap;
@@ -37,5 +39,6 @@ private:
 	std::map<int, std::map<int, Tile*>> tilemaps[3][3];
 	sf::RenderWindow* window;
 	bool isClear(int x1, int y1, int x2, int y2);
+	sf::Vector2<int> currentMap();
 };
 #endif

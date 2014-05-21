@@ -49,9 +49,7 @@ int main(int argc, char* argv[]) {
 	// Load World //
 	////////////////
 	Resources::init();
-	std::ifstream saveFile("data/world.save");
-	World world(&window, &view, saveFile, &timer);
-	saveFile.close();
+	World world(&window, &view, false, &timer);
 
 	view.setCenter(world.getPlayer()->getX()*Tile::tileSize, world.getPlayer()->getY()*Tile::tileSize);
 
@@ -63,13 +61,11 @@ int main(int argc, char* argv[]) {
 		while (window.pollEvent(event))
 		{	
 			if (event.type == sf::Event::Closed) {
-				world.save();
 				window.close();	
 			}
 		}
 		//keyboard input
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-			world.save();
 			window.close();
 		}
 		/////////////////////

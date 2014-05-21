@@ -3,12 +3,14 @@
 World::World(sf::RenderWindow* window, sf::View* view, bool hasSave, sf::Clock* timer) {
 	this->window = window;
 	this->timer = timer;
+	this->x = 0;
+	this->y = 0;
 	mapSize = 100;
 	
 
 	for (int a = 0; a < 3; a++) {
 		for (int b = 0; b < 3; b++) {
-			generate(a-1, b-1, a, b);
+			load(a-1, b-1, a, b);
 		}
 	}
 	player = new Player(window, 1, 1, 1, 1, view, &entitymap, timer);
@@ -20,7 +22,6 @@ World::~World(){
 
 void World::populate(std::string type, int x1, int y1, int x2, int y2, int chance) {
 	srand(time(NULL));
-
 	for (int a = x1; a <= x2; a++) {
 		for (int b = y1+1; b <= y2; b++) {
 			if (rand() % 100 + 1 <= chance) {
@@ -41,11 +42,18 @@ void World::paint(std::string type, int x1, int y1, int x2, int y2, int chance) 
 }
 
 void World::generate(int mapX, int mapY, int arrayX, int arrayY) {
+	std::string type;
 	for (int a = mapX*mapSize; a < mapX*mapSize+mapSize; a++) {
 		for (int b = mapY*mapSize; b < mapY*mapSize+mapSize; b++) {
-			tilemaps[arrayX][arrayY][a][b] = new Tile(window, a, b, Tile::tileSize, Tile::tileSize, "grass");
+			if (rand() % 10 == 0)
+				type = "dirt2";
+			else
+				type = "dirt1";
+			tilemaps[arrayX][arrayY][a][b] = new Tile(window, a, b, Tile::tileSize, Tile::tileSize, type);
 		}
 	}
+
+	save(mapX, mapY, arrayX, arrayY);
 }
 
 void World::draw()
@@ -78,6 +86,7 @@ void World::update() {
 				entitymap[a][b]->update();
 		}
 	}
+
 }
 
 Player* World::getPlayer()
@@ -85,10 +94,31 @@ Player* World::getPlayer()
 	return player;
 }
 
-void World::save() {
+void World::save(int mapX, int mapY, int arrayX, int arrayY) {
+	std::string filename = "data/world"+std::to_string(mapX)+std::to_string(mapY);
+	std::ofstream file(filename);
+	for (auto pair : tilemaps[arrayX][arrayY]) {
+		for (auto tile : pair.second) {
+			file << tile.second->getType() << " " << tile.second->getX() << " " << tile.second->getY() << std::endl;
+		}
+	}
+	file.close();
 }
 
-void World::load() {
+void World::load(int mapX, int mapY, int arrayX, int arrayY) {
+	std::string filename = "data/world" + std::to_string(mapX) + std::to_string(mapY);
+	std::ifstream file(filename);
+	
+	std::string type;
+	int tilex;
+	int tiley;
+	while (!file.eof()) {
+		file >> type;
+		file >> tilex;
+		file >> tiley;
+		tilemaps[arrayX][arrayY][tilex][tiley] = new Tile(window, tilex, tiley, Tile::tileSize, Tile::tileSize, type);
+	}
+	file.close();
 }
 
 bool World::isClear(int x1, int y1, int x2, int y2) {
@@ -99,5 +129,11 @@ bool World::isClear(int x1, int y1, int x2, int y2) {
 		}
 	}
 	return true;
+}
+
+sf::Vector2<int> World::currentMap() {
+	int mapx = player->getX()/mapSize;
+	int mapy = player->getY()/mapSize;
+	return sf::Vector2<int>(mapx, mapy);
 }
 

@@ -12,6 +12,8 @@ public:
 	void draw();
 	std::string getType();
 	static int tileSize;
+	int getX();
+	int getY();
 private:
 	void generateArray();
 	sf::VertexArray vertices;
