@@ -19,6 +19,7 @@ public:
 	int getY();
 	int getWidth();
 	int getHeight();
+	std::string getDataType();
 	virtual void update() = 0;
 protected:
 	sf::RenderWindow* window;
@@ -29,6 +30,7 @@ protected:
 	int height;
 	int x;
 	int y;
+	std::string dataType;
 	void initSprite();
 	void removeFromMap();
 	void updateOnMap();

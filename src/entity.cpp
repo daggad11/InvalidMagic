@@ -60,5 +60,6 @@ int Entity::getX() { return x; }
 int Entity::getY() { return y; } 
 int Entity::getWidth() { return width; }
 int Entity::getHeight() { return height; }
+std::string Entity::getDataType(){ return dataType; }
 
 

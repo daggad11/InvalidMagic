@@ -12,10 +12,13 @@ public:
 
 	//update functions
 	void update();
+	void passiveUpdate();
 	void cowUpdate();
+	void wolfUpdate();
 	void (NPC::*realUpdate)( );
 private:
 	double moveTimer;
 	double moveTime;
+	bool isAggro;
 };
 #endif
