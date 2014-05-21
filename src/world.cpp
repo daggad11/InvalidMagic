@@ -91,14 +91,18 @@ void World::draw()
 
 //////////UPDATE//////////
 void World::update() {
-	int dX = window->getSize().x / Tile::tileSize/2 + 1;
+	/*int dX = window->getSize().x / Tile::tileSize/2 + 1;
 	int dY = window->getSize().y / Tile::tileSize/2 + 1;
 	for (int a = player->getX() - dX; a < player->getX() + dX; a++) {
 		for (int b = player->getY() - dY; b < player->getY() + dY; b++) {
 			if (entitymap[a][b] != NULL)
 				entitymap[a][b]->update();
 		}
+	}*/
+	for (auto npc : npcs) {
+		npc->update();
 	}
+	player->update();
 
 	if (!mapSynced()) {
 		updateMaps(currentMap().x, currentMap().y);
