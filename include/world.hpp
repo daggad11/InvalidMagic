@@ -40,6 +40,8 @@ private:
 	std::map<int, std::map<int, Tile*>> tilemaps[3][3];
 	sf::RenderWindow* window;
 	bool isClear(int x1, int y1, int x2, int y2);
-	sf::Vector2<int> currentMap();
+	bool mapSynced();
+	void updateMaps(int x, int y);
+	bool mapExists(int mapX, int mapY);
 };
 #endif
