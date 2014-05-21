@@ -6,9 +6,14 @@ NPC::NPC(sf::RenderWindow* window, int width, int height, int x, int y, std::map
 	updateOnMap();
 	moveTimer = 0;
 	moveTime = 0;
-
+	isAggro = false;
+	dataType = "npc";
 	if (type == "cow") {
-		realUpdate = &NPC::cowUpdate;
+		realUpdate = &NPC::passiveUpdate;//change this to cowUpdate when notes in said method are implememted.
+	}
+	else if (type == "wolf"){
+		realUpdate = &NPC::wolfUpdate;
+
 	}
 	initSprite();
 }
@@ -17,7 +22,7 @@ NPC::~NPC(){
 	//todo
 }
 
-void NPC::cowUpdate() {
+void NPC::passiveUpdate(){
 	srand(time(NULL));
 	moveTimer += timer->getElapsedTime().asSeconds();
 	if (moveTime == 0)
@@ -35,6 +40,44 @@ void NPC::cowUpdate() {
 			sprite.setPosition(x*Tile::tileSize, y*Tile::tileSize);
 		}	
 	}
+}
+void NPC::cowUpdate() {
+	//need to implement something that runs when attacked, after attacking is actually a thing...
+
+}
+
+
+void NPC::wolfUpdate(){
+	srand(time(NULL));
+	moveTimer += timer->getElapsedTime().asSeconds();
+	if(moveTimer > 3.0) {
+		int tmpX = 0;
+		int tmpY = 0;
+		for (int i = 0; i < 5; i++){
+			for (int j = 0; j < 5; j++){
+				if((*entitymap)[i][j] != NULL){
+					if((*entitymap)[i][j]->getDataType() == "player"){
+						isAggro = true;
+						tmpX = i;
+						tmpY = j;
+					}//records the coords of a player to move towards. 
+				}
+			}
+		}
+		if(isAggro == true){
+			removeFromMap();
+			if(tmpX>x) { x++; }
+			else{ x--; }
+			if(tmpY>y){	y++; }
+			else{ y--; }
+			updateOnMap();
+			sprite.setPosition(x*Tile::tileSize, y*Tile::tileSize);
+		}//this increments towards a player!
+
+		isAggro = false;
+		moveTimer = 0;
+	}
+
 }
 
 void NPC::update() {
