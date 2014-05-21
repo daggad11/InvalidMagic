@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
 	// Window Creation //
 	/////////////////////
 	sf::RenderWindow window(sf::VideoMode(width, height), "Invalid Magic");
-	Tile::tileSize = window.getSize().x/30;
+	Tile::tileSize = window.getSize().x/20;
 	sf::View view(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
 	
 	/////////////////

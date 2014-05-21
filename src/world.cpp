@@ -5,7 +5,7 @@ World::World(sf::RenderWindow* window, sf::View* view, bool hasSave, sf::Clock* 
 	this->timer = timer;
 	this->x = 0;
 	this->y = 0;
-	mapSize = 20;
+	mapSize = 30;
 
 	//loading from file if it exists else generates first 3x3
 	std::ifstream isFile("data/world00");
@@ -61,27 +61,35 @@ void World::generate(int mapX, int mapY, int arrayX, int arrayY) {
 	save(mapX, mapY, arrayX, arrayY);
 }
 
+//////////DRAW//////////
 void World::draw()
 {
 	int dX = window->getSize().x / Tile::tileSize/2 + 1;
 	int dY = window->getSize().y / Tile::tileSize/2 + 1;
-
+	
+	bool break2;
 	//drawing entities & tilemap
 	for (int a = player->getX() - dX; a < player->getX() + dX; a++) {
 		for (int b = player->getY() - dY; b < player->getY() + dY; b++) {
 			for (int c = 0; c < 3; c++) {
 				for (int d = 0; d < 3; d++) {
-					if (tilemaps[c][d][a][b] != NULL) 
+					if (tilemaps[c][d][a][b] != NULL) {
 						tilemaps[c][d][a][b]->draw();
+						break2 = true;
+						break;
 					}
 				}
-			if (entitymap[a][b] != NULL)
-				entitymap[a][b]->draw();
+				if (break2) {
+					break2 = false;
+					break;
+				}
+			}
 		}
 	}
+	player->draw();
 }	
 
-
+//////////UPDATE//////////
 void World::update() {
 	int dX = window->getSize().x / Tile::tileSize/2 + 1;
 	int dY = window->getSize().y / Tile::tileSize/2 + 1;
@@ -91,8 +99,8 @@ void World::update() {
 				entitymap[a][b]->update();
 		}
 	}
-	if (!mapSynced()) {
 
+	if (!mapSynced()) {
 		updateMaps(currentMap().x, currentMap().y);
 	}
 }
@@ -152,7 +160,6 @@ sf::Vector2<int> World::currentMap() {
 }
 
 bool World::mapSynced() {
-
 	if (x == currentMap().x && y == currentMap().y)	
 		return true;
 	return false;
