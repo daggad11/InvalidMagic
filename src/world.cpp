@@ -12,7 +12,7 @@ World::World(sf::RenderWindow* window, sf::View* view, bool hasSave, sf::Clock* 
 		}
 	}
 	player = new Player(window, 1, 1, 1, 1, view, &entitymap, timer);
-	wolfie = new NPC(window, 1, 1, 6, 6, &entitymap, timer, "wolf");
+
 }
 
 World::~World(){
