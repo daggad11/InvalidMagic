@@ -102,8 +102,8 @@ int main(int argc, char* argv[]) {
 		s.str("");
 		s << "FPS:" << (int)(1.0/(timer.restart()).asSeconds());
 	    text.setString(s.str());
-	    text.setPosition(world.getPlayer()->getX()*Tile::tileSize, world.getPlayer()->getY()*Tile::tileSize);
-
+	    text.setPosition(view.getCenter().x - window.getSize().x/2, view.getCenter().y - window.getSize().y/2);
+	    
 	    window.clear(sf::Color::Black);
 		
 	    ////////////////
