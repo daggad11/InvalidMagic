@@ -12,7 +12,7 @@ public:
 	static void setString(std::string, int* value);
 	//static void setString(std::string, float* value, int line);
 	//static void setString(std::string, double* value, int line);
-	void draw();
+	static void draw();
 private:
 	static sf::Text text;
 	static sf::RenderWindow* window;

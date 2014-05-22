@@ -3,6 +3,7 @@
 #include <cstdio>
 #include "world.hpp"
 #include "resources.hpp"
+#include "debug.hpp"
 #include <sstream>
 
 int Tile::tileSize;
@@ -33,17 +34,17 @@ int main(int argc, char* argv[]) {
 	sf::View view(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
 	
 	/////////////////
-	// FPS Monitor //
+	// World Timer //
 	/////////////////
 	sf::Clock timer;
-	sf::Font font;
-	font.loadFromFile("resources/arial.ttf");
-	sf::Text text;
-	text.setFont(font);
-	text.setColor(sf::Color::White);
-	text.setCharacterSize(12);
-	std::stringstream s;
 	timer.restart();
+
+	////////////////////////
+	// Load Debug Monitor //
+	////////////////////////
+	int fps;
+	Debug::setString("FPS", &fps);
+	Debug::init(&window, &view);
 
 	////////////////
 	// Load World //
@@ -99,10 +100,8 @@ int main(int argc, char* argv[]) {
 		///////////////////
 		// Determine FPS //
 		///////////////////
-		s.str("");
-		s << "FPS:" << (int)(1.0/(timer.restart()).asSeconds()) << "\nTest";
-	    text.setString(s.str());
-	    text.setPosition(view.getCenter().x - window.getSize().x/2, view.getCenter().y - window.getSize().y/2);
+		fps = (int)(1.0/(timer.restart()).asSeconds());
+		
 	    
 	    window.clear(sf::Color::Black);
 		
@@ -114,7 +113,7 @@ int main(int argc, char* argv[]) {
 		//////////////////////
 		// Draw FPS + Debug //
 		//////////////////////
-		window.draw(text);
+		Debug::draw();
 	    window.display();
   	}
   return 0;
