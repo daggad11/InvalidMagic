@@ -1,4 +1,3 @@
-
 #ifndef DEBUG_HPP
 #define DEBUG_HPP
 #include <SFML/Graphics.hpp>
@@ -7,15 +6,20 @@
 class Debug
 {
 public:
-	Debug();				
-	Debug(sf::RenderWindow* window);
+	Debug();			
 	~Debug();
-	void setString(std::string, int* value, int line);
-	void setString(std::string, float* value, int line);
-	void setString(std::string, double* value, int line);
+	static void init(sf::RenderWindow* w, sf::View* v);
+	static void setString(std::string, int* value);
+	//static void setString(std::string, float* value, int line);
+	//static void setString(std::string, double* value, int line);
+	void draw();
 private:
-	sf::Text text;
-	std::vector<std::string> strings;
-	sf::RenderWindow* window;
-	std::stringstream stream;
+	static sf::Text text;
+	static sf::RenderWindow* window;
+	static sf::View* view;
+	static std::stringstream stream;
+	static std::map<std::string, int*> values;
+	static std::vector<std::string> strings;
 };
+
+#endif
