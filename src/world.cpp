@@ -84,9 +84,10 @@ void World::draw()
 					break;
 				}
 			}
+			if (entitymap[a][b] != NULL)
+				entitymap[a][b]->draw();
 		}
 	}
-	player->draw();
 }	
 
 //////////UPDATE//////////

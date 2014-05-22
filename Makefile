@@ -10,8 +10,8 @@ all: bin/game
 #bin/game: $(OBJECTS)
 #	$(CC) $(OBJECTS) $(CFLAGS) $(LDFLAGS) -o bin/game
 
-#build/game.o: src/game.cpp build/world.o build/resources.o build/debug.o
-#	$(CC) src/game.cpp $(CFLAGS) $(LDFLAGS) -c -o build/game.o
+build/game.o: src/game.cpp
+	$(CC) src/game.cpp $(CFLAGS) $(LDFLAGS) -c -o build/game.o
 
 #build/resources.o: src/resources.cpp include/resources.hpp
 #	$(CC) src/resources.cpp $(CFLAGS) $(LDFLAGS) -c -o build/resources.o
@@ -43,12 +43,12 @@ all: bin/game
 #build/debug.o: src/debug.cpp include/debug.hpp
 #	$(CC) src/debug.cpp $(CFLAGS) -c -o build/debug.o
 
-build/%.o: src/%.cpp
+build/%.o: src/%.cpp include/%.hpp
 	$(CC) $< $(CFLAGS) $(LDFLAGS) -c -o $@
 
 bin/game: $(OBJS)
 	$(CC) $(OBJS) $(CFLAGS) $(LDFLAGS) -o bin/game 
 
 clean: 
-	rm $(OBJECTS)
+	rm build/*
 	rm bin/game
