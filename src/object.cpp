@@ -1,4 +1,5 @@
 #include "object.hpp"
+#include <iostream>
 
 Object::Object(sf::RenderWindow* window, int width, int height, int x, int y, std::string type, std::map<int, std::map<int, Entity*>>* entitymap) : Entity(window, width, height, x, y, entitymap) {
 	this->type = type;
@@ -16,6 +17,7 @@ Object::Object(sf::RenderWindow* window, int width, int height, int x, int y, st
 		sprite.setColor(sf::Color(100, 100, 100));
 	}
 	initSprite();
+	
 
 	for (int a = x; a < x + width; a++) {
 		for (int b = y; b < y + width; b++) {
