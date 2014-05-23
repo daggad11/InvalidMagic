@@ -2,16 +2,29 @@ CC := g++
 CXX := $(CC)
 CFLAGS := -Iinclude/ -g -std=c++11
 LDFLAGS := -Llib/SFML/ -lsfml-graphics -lsfml-window -lsfml-system -Wl,-rpath,\$$ORIGIN/../lib/SFML/
-OBJECTS := build/game.o build/entity.o build/creature.o build/player.o build/world.o build/tile.o build/object.o build/npc.o build/resources.o build/item.o build/debug.o
+#OBJECTS := build/game.o build/entity.o build/creature.o build/player.o build/world.o build/tile.o build/object.o build/npc.o build/resources.o build/item.o build/debug.o
 OBJS := $(patsubst src/%.cpp, build/%.o, $(wildcard src/*.cpp))
 
 all: bin/game
 
-#bin/game: $(OBJECTS)
-#	$(CC) $(OBJECTS) $(CFLAGS) $(LDFLAGS) -o bin/game
+bin/game: $(OBJS)
+	$(CC) $(OBJS) $(CFLAGS) $(LDFLAGS) -o bin/game 
 
 build/game.o: src/game.cpp
 	$(CC) src/game.cpp $(CFLAGS) $(LDFLAGS) -c -o build/game.o
+
+build/%.o: src/%.cpp include/%.hpp
+	$(CC) $< $(CFLAGS) $(LDFLAGS) -c -o $@
+
+clean: 
+	rm build/*
+	rm bin/game
+
+.PHONY: clean
+
+
+#bin/game: $(OBJECTS)
+#	$(CC) $(OBJECTS) $(CFLAGS) $(LDFLAGS) -o bin/game
 
 #build/resources.o: src/resources.cpp include/resources.hpp
 #	$(CC) src/resources.cpp $(CFLAGS) $(LDFLAGS) -c -o build/resources.o
@@ -43,12 +56,4 @@ build/game.o: src/game.cpp
 #build/debug.o: src/debug.cpp include/debug.hpp
 #	$(CC) src/debug.cpp $(CFLAGS) -c -o build/debug.o
 
-build/%.o: src/%.cpp include/%.hpp
-	$(CC) $< $(CFLAGS) $(LDFLAGS) -c -o $@
 
-bin/game: $(OBJS)
-	$(CC) $(OBJS) $(CFLAGS) $(LDFLAGS) -o bin/game 
-
-clean: 
-	rm build/*
-	rm bin/game

@@ -14,12 +14,12 @@ public:
 	//static void setString(std::string, double* value, int line);
 	static void draw();
 private:
+	static sf::Clock timer;
 	static sf::Text text;
 	static sf::RenderWindow* window;
 	static sf::View* view;
 	static std::stringstream stream;
-	static std::map<std::string, int*> values;
-	static std::vector<std::string> strings;
+	static std::vector<std::pair<std::string, int*> > pairs; 
 };
 
 #endif

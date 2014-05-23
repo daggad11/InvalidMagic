@@ -1,11 +1,11 @@
 #include "debug.hpp"
 
+sf::Clock Debug::timer;
 sf::Text Debug::text;
-std::vector<std::string> Debug::strings;
 sf::RenderWindow* Debug::window;
 sf::View* Debug::view;
 std::stringstream Debug::stream;
-std::map<std::string, int*> Debug::values;
+std::vector<std::pair<std::string, int*> > Debug::pairs;
 
 Debug::Debug(){};
 Debug::~Debug(){};
@@ -22,22 +22,31 @@ void Debug::init(sf::RenderWindow* w, sf::View* v)
 	text.setColor(sf::Color::White);
 	text.setCharacterSize(12);
 	stream.str("");
+	timer.restart();
 }
 
 void Debug::setString(std::string s, int* value)
 {
-	values[s] = value;
-	strings.push_back(s);
+	pairs.push_back(std::pair<std::string, int*>(s, value));
 }	
 
 void Debug::draw()
 {
-	stream.str(""); //reset stringstream
-	for (std::string s: strings)
+	if (timer.getElapsedTime().asMilliseconds() > 250)
 	{
-		stream << s << ": " << *(values[s]) << std::endl;
+		stream.str(""); //reset stringstream
+		for (auto pair: pairs)
+		{
+			stream << pair.first << ": " << *(pair.second) << std::endl;
+		}
+		text.setString(stream.str());
+		text.setPosition(view->getCenter().x - window->getSize().x/2, view->getCenter().y - window->getSize().y/2);
+		window->draw(text);
+		timer.restart();
 	}
-	text.setString(stream.str());
-	text.setPosition(view->getCenter().x - window->getSize().x/2, view->getCenter().y - window->getSize().y/2);
-	window->draw(text);
+	else
+	{
+		text.setPosition(view->getCenter().x - window->getSize().x/2, view->getCenter().y - window->getSize().y/2);
+		window->draw(text);
+	}
 }
