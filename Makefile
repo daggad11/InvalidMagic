@@ -26,7 +26,7 @@ build/game.o: src/game.cpp
 #	$(CC) src/entity.cpp $(CFLAGS) $(LDFLAGS) -c -o build/entity.o
 
 #build/object.o: src/object.cpp include/object.hpp build/entity.o
-#	$(CC) src/object.cpp $(CFLAGS) $(LDFLAGS) -c -o build/object.o
+	#$(CC) src/object.cpp $(CFLAGS) $(LDFLAGS) -c -o build/object.o
 
 #build/creature.o: src/creature.cpp include/creature.hpp build/entity.o
 #	$(CC) src/creature.cpp $(CFLAGS) $(LDFLAGS) -c -o build/creature.o
