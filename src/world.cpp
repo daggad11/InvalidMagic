@@ -5,7 +5,7 @@ World::World(sf::RenderWindow* window, sf::View* view, bool hasSave, sf::Clock* 
 	this->timer = timer;
 	this->x = 0;
 	this->y = 0;
-	mapSize = 30;
+	mapSize = 10;
 
 	//loading from file if it exists else generates first 3x3
 	std::ifstream isFile("data/world00");
