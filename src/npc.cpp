@@ -7,7 +7,7 @@ NPC::NPC(sf::RenderWindow* window, int width, int height, int x, int y, std::map
 	moveTimer = 0;
 	moveTime = 0;
 	isAggro = false;
-	dataType = "npc";
+	dataType = this->EntityType.npc;
 	if (type == "cow") {
 		realUpdate = &NPC::passiveUpdate;//change this to cowUpdate when notes in said method are implememted.
 	}
@@ -56,7 +56,7 @@ void NPC::wolfUpdate(){
 		for (int i = 0; i < 5; i++){
 			for (int j = 0; j < 5; j++){
 				if((*entitymap)[i][j] != NULL){
-					if((*entitymap)[i][j]->getDataType() == "player"){
+					if((*entitymap)[i][j]->getDataType() == EntityType.player){
 						isAggro = true;
 						tmpX = i;
 						tmpY = j;

@@ -13,7 +13,7 @@ Player::Player(sf::RenderWindow* window, int width, int height, int x, int y, sf
 	moveRight = false;
 	moveLeft = false;
 	moveTimer = 0;
-	dataType = "player";
+	dataType = this->EntityType.player;
 	texture = Resources::getTexture("player");
 	initSprite();
 	(*entitymap)[x][y] = this;

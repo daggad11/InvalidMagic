@@ -12,6 +12,7 @@ Entity::Entity(sf::RenderWindow* window, int width, int height, int x, int y, st
 	this->x = x;
 	this->y = y;
 	this->window = window;
+	this->dataType = this->EntityType.entity;
 	this->entitymap = entitymap;
 }
 
@@ -60,6 +61,6 @@ int Entity::getX() { return x; }
 int Entity::getY() { return y; } 
 int Entity::getWidth() { return width; }
 int Entity::getHeight() { return height; }
-std::string Entity::getDataType(){ return dataType; }
+int Entity::getDataType(){ return dataType; }
 
 
