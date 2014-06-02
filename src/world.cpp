@@ -195,14 +195,17 @@ bool World::mapExists(int mapX, int mapY) {
 }
 
 void World::updateMaps(int newx, int newy) {
+	using namespace std::placeholders;
 	for (int a = 0; a < 3; a++) {
 		for (int b = 0; b < 3; b++) {
 			tilemaps[a][b].clear();
 			objects[a][b].clear();
-			if (mapExists(newx+a-1, newy+b-1))
+			if (mapExists(newx+a-1, newy+b-1)) {
 				load(newx+a-1, newy+b-1, a, b);
-			else
+			}
+			else {
 				generate(newx+a-1, newy+b-1, a, b);
+			}
 		}
 	}
 

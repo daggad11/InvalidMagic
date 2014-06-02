@@ -5,6 +5,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <iostream>
+#include <functional>
 #include "tile.hpp"
 #include "player.hpp"
 #include "object.hpp"

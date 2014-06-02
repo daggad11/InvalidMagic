@@ -1,5 +1,4 @@
 #include "entity.hpp"
-#include <iostream>
 
 
 Entity::Entity() {
@@ -12,7 +11,7 @@ Entity::Entity(sf::RenderWindow* window, int width, int height, int x, int y, st
 	this->x = x;
 	this->y = y;
 	this->window = window;
-	this->dataType = this->EntityType.entity;
+	this->dataType = EntityType::entity;
 	this->entitymap = entitymap;
 }
 
