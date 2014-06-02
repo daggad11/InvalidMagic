@@ -7,6 +7,8 @@ OBJS := $(patsubst src/%.cpp, build/%.o, $(wildcard src/*.cpp))
 
 all: bin/game
 
+sandwich: all
+
 bin/game: $(OBJS)
 	$(CC) $(OBJS) $(CFLAGS) $(LDFLAGS) -o bin/game 
 
