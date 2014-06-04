@@ -14,6 +14,7 @@ public:
 	//static void setString(std::string, double* value, int line);
 	static void draw();
 private:
+	static float average;
 	static sf::Clock timer;
 	static sf::Text text;
 	static sf::RenderWindow* window;
