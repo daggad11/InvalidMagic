@@ -20,7 +20,7 @@ Entity::Entity(int tileSize, sf::Vector2i position, sf::Vector2i size, std::vect
 	this->texture = texture;
 
 	//setting original direction
-	direction = Direction::RIGHT;
+	direction = Direction::UP;
 
 	//making vertices into quad
 	vertices.setPrimitiveType(sf::Quads);

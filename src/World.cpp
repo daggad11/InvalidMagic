@@ -10,9 +10,11 @@ World::World(sf::Clock* timer) {
 
 	//creating textures
 	textures[Texture::PLAYER] = sf::Texture();
+	textures[Texture::TREE] = sf::Texture();
 
 	//loading textures
 	textures[Texture::PLAYER].loadFromFile("resources/player.png");
+	textures[Texture::TREE].loadFromFile("resources/tree.png");
 
 	//creating 10x10 tileMap
 	genMap(100, 100);
@@ -54,9 +56,20 @@ void World::genMap(int width, int height) {
 
 	//generating tilemap
 	tileMap.load(tempTiles, "resources/tiles.jpg", 64);
+
+	//generating forest
+	for (int a = 10; a < 50; a += 2) {
+		for (int b = 10; b < 50; b+= 4) {
+			objects.push_back(Entity(64, sf::Vector2i(a, b), sf::Vector2i(1, 2), &entityMap, &tileMap, &textures[Texture::TREE]));
+		}
+	}
 }
 
 void World::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	target.draw(tileMap, states);
 	target.draw(player);
+
+	for (Entity object : objects) {
+		target.draw(object);
+	}
 }

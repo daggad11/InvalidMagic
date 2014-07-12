@@ -16,7 +16,7 @@ public:
 	void update(); //updates all entities
 	Player* getPlayer(); //returns pointer to player
 private:
-	enum Texture { PLAYER };
+	enum Texture { PLAYER, TREE };
 
 	sf::Clock* timer; //passed down to npc's and player
 	std::map<int, sf::Texture> textures; //allows for access of specific textures
@@ -24,7 +24,8 @@ private:
 	TileMap tileMap; //map of all the current tiles
 	std::vector<std::vector<Entity*>> entityMap; //vector representing entities on tileMap
 
-	Player player;
+	Player player; //the player the user plays as
+	std::vector<Entity> objects; //decoration entites like trees, rocks, etc
 
 	void genMap(int width, int height); //generates a tilemap based off of a width and height
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const; //draws all entities and tilemap
