@@ -17,9 +17,6 @@ Player::Player(sf::Clock* timer, int tileSize, sf::Vector2i position, sf::Vector
 
 	//setting stats
 	stats[StatName::SPEED] = 1;
-
-	//setting move timer
-	nextMove = timer->getElapsedTime().asSeconds();
 }
 
 void Player::update() {

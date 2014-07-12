@@ -3,7 +3,9 @@
 #include <cstdlib>
 #include "TileMap.hpp"
 #include "Entity.hpp"
+#include "Creature.hpp"
 #include "Player.hpp"
+#include "NPC.hpp"
 
 /*The world class contains everything that will
 be drawn and that have 'physical properties'.
@@ -16,7 +18,7 @@ public:
 	void update(); //updates all entities
 	Player* getPlayer(); //returns pointer to player
 private:
-	enum Texture { PLAYER, TREE };
+	enum EntityType { PLAYER, ZOMBIE, TREE };
 
 	sf::Clock* timer; //passed down to npc's and player
 	std::map<int, sf::Texture> textures; //allows for access of specific textures
@@ -26,9 +28,12 @@ private:
 
 	Player player; //the player the user plays as
 	std::vector<Entity> objects; //decoration entites like trees, rocks, etc
+	std::vector<NPC> npcs;
 
 	void genMap(int width, int height); //generates a tilemap based off of a width and height
+	void createNPC(sf::Vector2i position, int type); //creates an npc 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const; //draws all entities and tilemap
+	bool mapClear(sf::Vector2i position, sf::Vector2i size); //checks if entityMap is empty and in bounds for a given area
 };
 
 #endif

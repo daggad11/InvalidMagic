@@ -10,10 +10,12 @@ type.*/
 
 class Creature : public Entity {
 public:
+	enum StatName { SPEED };
+
 	Creature(); //default constructor
 	Creature(sf::Clock* timer, int tileSize, sf::Vector2i position, sf::Vector2i size, std::vector<std::vector<Entity*>>* entityMap, TileMap* tileMap, sf::Texture* texture); //passes everything to entity
 protected:
-	enum StatName { SPEED };
+	float nextMove; //used to limit creature
 	
 	std::map<int, float> stats; //mapping enumerated stats to their values for easy access
 	sf::Clock* timer;

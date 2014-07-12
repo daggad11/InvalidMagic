@@ -10,7 +10,6 @@ public:
 	void setMoving(bool right, bool left, bool up, bool down); //sets smooth movement variablesa
 private:
 	bool moving[4]; //used for smooth movement
-	float nextMove; //used to limit player movement
 };
 
 #endif
