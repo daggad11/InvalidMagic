@@ -14,7 +14,7 @@ World::World(sf::Clock* timer) {
 	textures[EntityType::ZOMBIE] = sf::Texture();
 
 	//loading textures
-	textures[EntityType::PLAYER].loadFromFile("resources/player.png");
+	textures[EntityType::PLAYER].loadFromFile("resources/playerFemale.png");
 	textures[EntityType::TREE].loadFromFile("resources/tree.png");
 	textures[EntityType::ZOMBIE].loadFromFile("resources/zombie.png");
 
@@ -22,7 +22,18 @@ World::World(sf::Clock* timer) {
 	genMap(100, 100);
 
 	//creating player
-	player = Player(timer, 64, sf::Vector2i(1, 1), sf::Vector2i(1, 1), &entityMap, &tileMap, &textures[EntityType::PLAYER]);
+	player = Player(&npcs, timer, 64, sf::Vector2i(1, 1), sf::Vector2i(1, 1), &entityMap, &tileMap, &textures[EntityType::PLAYER]);
+
+	//generating 10 zombies
+	int zombiesLeft = 100;
+	while (zombiesLeft > 0) {
+		sf::Vector2i position(rand() % entityMap.size(), rand() % entityMap[0].size());
+		if (mapClear(position, sf::Vector2i(1, 1))) {
+			createNPC(position, EntityType::ZOMBIE);
+			zombiesLeft--;
+		}
+	}
+
 }
 
 
@@ -31,7 +42,9 @@ void World::update() {
 
 	//running all npcs update functions
 	for (int a = 0; a < npcs.size(); a++) {
-		npcs[a].update();
+		if (!npcs[a].update()) {
+			npcs.erase(npcs.begin()+a);
+		}
 	}
 }
 
@@ -70,17 +83,6 @@ void World::genMap(int width, int height) {
 			objects.push_back(Entity(64, sf::Vector2i(a, b), sf::Vector2i(1, 2), &entityMap, &tileMap, &textures[EntityType::TREE]));
 		}
 	}
-
-	//generating 10 zombies
-	int zombiesLeft = 100;
-	while (zombiesLeft > 0) {
-		sf::Vector2i position(rand() % entityMap.size(), rand() % entityMap[0].size());
-		if (mapClear(position, sf::Vector2i(1, 1))) {
-			createNPC(position, EntityType::ZOMBIE);
-			zombiesLeft--;
-		}
-	}
-	
 }
 
 void World::createNPC(sf::Vector2i position, int type) {
@@ -89,25 +91,32 @@ void World::createNPC(sf::Vector2i position, int type) {
 	//ZOMBIE NPC
 	if (type == EntityType::ZOMBIE) {
 		stats[Creature::StatName::SPEED] = 20;
-		npcs.push_back(NPC(NPC::Type::PASSIVE, NPC::Type::NONE, &player, stats, timer, 64, position, sf::Vector2i(1, 1), &entityMap, &tileMap, &textures[EntityType::ZOMBIE]));
+		stats[Creature::StatName::HEALTH] = 100;
+		stats[Creature::StatName::ATTACK] = 10;
+		stats[Creature::StatName::DEFENSE] = 10;
+		stats[Creature::StatName::BASEDAMAGE] = 10;
+		stats[Creature::StatName::DETECTIONRANGE] = 5;
+		stats[Creature::StatName::ATTACKTIME] = 1;
+
+		npcs.push_back(NPC(NPC::lastId, NPC::Type::FOLLOW, NPC::Type::MELEE, &player, stats, timer, 64, position, sf::Vector2i(1, 1), &entityMap, &tileMap, &textures[EntityType::ZOMBIE]));
 	}
-
-
 }
 
 void World::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	target.draw(tileMap, states);
-	target.draw(player);
 
 	//drawing all objects
 	for (Entity object : objects) {
 		target.draw(object);
 	}
 	
+	target.draw(player);
+		
 	//drawing all npcs
 	for (int a = 0; a < npcs.size(); a++) {
 		target.draw(npcs[a]);
 	}
+
 }
 
 bool World::mapClear(sf::Vector2i position, sf::Vector2i size) {

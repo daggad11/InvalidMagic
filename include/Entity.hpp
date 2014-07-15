@@ -10,18 +10,21 @@ Entity is then divided into subclasses creature, and object. */
 class Entity : public sf::Drawable {
 public:
 	enum Direction { RIGHT, LEFT, UP, DOWN };
+	enum Type { CREATURE, OBJECT };
 
 	Entity(); //default constructor
-	Entity(int tileSize, sf::Vector2i position, sf::Vector2i size, std::vector<std::vector<Entity*>>* entityMap, TileMap* tileMap, sf::Texture* texture); //constructor passes in needed variables
+	Entity(int tileSize, sf::Vector2i position, sf::Vector2i size, std::vector<std::vector<Entity*> >* entityMap, TileMap* tileMap, sf::Texture* texture); //constructor passes in needed variables
 	sf::Vector2i getPosition(); //returns position
+	int getType(); //returns type
 protected:
+	int type; //distinguishes between creatures and objects
 	int tileSize; //size of a tile in pixels
 	int direction; //direction entity is facing
 
 	sf::Vector2i position; //x and y pos in tilemap
 	sf::Vector2i size; //size in terms of tiles
 
-	std::vector<std::vector<Entity*>>* entityMap; //pointer to world's map of entity pointers
+	std::vector<std::vector<Entity*> >* entityMap; //pointer to world's map of entity pointers
 	TileMap* tileMap; //pointer to world's tilemap
 
 	sf::VertexArray vertices; //vertices that entity will be drawn within

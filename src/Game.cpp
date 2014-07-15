@@ -4,16 +4,17 @@
 #include "DebugText.hpp"
 #include "Entity.hpp"
 #include "World.hpp"
+#include "HUD.hpp"
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1600, 900), "SFML works!");
-    sf::View view(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
+    sf::View view(sf::FloatRect(0, 0, window.getSize().x/2, window.getSize().y/2));
 
     sf::Clock timer;
 
     //used to show debug text on screen
-    DebugText debug(2);
+    DebugText debug(3);
     int fps = 0; 
 
     //used to calculate fps
@@ -28,6 +29,9 @@ int main()
 
     //getting pointer to player from world
     Player* player = world.getPlayer();
+
+    //creating HUD
+    HUD hud(player, &view, &window);
 
     //used for player movement
     bool moveRight;
@@ -66,23 +70,44 @@ int main()
                 moveDown = false;
             //setting all movement variables at once 
             player->setMoving(moveRight, moveLeft, moveUp, moveDown);
+
+            //Player attacking directions
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::J))
+                player->setAttacking(Entity::Direction::LEFT, true);
+            else
+                player->setAttacking(Entity::Direction::LEFT, false);
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::L))
+                player->setAttacking(Entity::Direction::RIGHT, true);
+            else
+                player->setAttacking(Entity::Direction::RIGHT, false);
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::I))
+                player->setAttacking(Entity::Direction::UP, true);
+            else
+                player->setAttacking(Entity::Direction::UP, false);
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::K))
+                player->setAttacking(Entity::Direction::DOWN, true);
+            else
+                player->setAttacking(Entity::Direction::DOWN, false);
             
         }
 
         //updating everything in world
         world.update();
+        //updating HUD
+        hud.update();
 
         //centering view on player
         view.setCenter(((sf::Vector2f)(player->getPosition()*64)));
         window.setView(view);
 
         //moving debug text to line up with view
-        debug.setPosition(sf::Vector2f(view.getCenter().x - window.getSize().x/2, view.getCenter().y - window.getSize().y/2));
+        debug.setPosition(sf::Vector2f(view.getCenter().x - window.getSize().x/4, view.getCenter().y - window.getSize().y/4));
 
         //clearing and drawing to window
         window.clear();
         window.draw(world);
         window.draw(debug);
+        window.draw(hud);
         window.display();
 
         //calculating fps and showing debug text every 0.25 seconds
@@ -95,6 +120,7 @@ int main()
             //setting debug lines
             debug.setLine(0, "FPS: " + std::to_string(fps));
             debug.setLine(1, "Average FPS: " + std::to_string((int)(totalFrames / timer.getElapsedTime().asSeconds())));
+            debug.setLine(2, "Player Health: " + std::to_string((int)player->getStats()[Player::StatName::HEALTH]));
         }
         frames++;
         totalFrames++;

@@ -13,12 +13,12 @@ public:
 	enum TileType { DIRT1, DIRT2, DIRT3, GRASS, BLANK1, BlANK2, WATER, BLANK3, BLANK4 };
 
 	TileMap(); //default constructor
-	void load(std::vector<std::vector<int>> tiles, std::string tileSet, int tileSize); //loads tiles and creates vertex array
+	void load(std::vector<std::vector<int> > tiles, std::string tileSet, int tileSize); //loads tiles and creates vertex array
 
 private:
 	int tileSize; //size of tiles in pixels
 
-	std::vector<std::vector<int>> tiles; //vector storing all the tiles as integers representing tile types
+	std::vector<std::vector<int> > tiles; //vector storing all the tiles as integers representing tile types
 	sf::VertexArray vertices; //contains texture vertices to be drawn
 	sf::Texture tileSet; //texture with all tiles to be drawn
 

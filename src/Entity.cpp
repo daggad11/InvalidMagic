@@ -19,6 +19,12 @@ Entity::Entity(int tileSize, sf::Vector2i position, sf::Vector2i size, std::vect
 	this->tileMap = tileMap;
 	this->texture = texture;
 
+
+	//setting type to object if not creature
+	if (type != Type::CREATURE)
+		type = Type::OBJECT;
+
+
 	//setting original direction
 	direction = Direction::UP;
 
@@ -41,6 +47,10 @@ sf::Vector2i Entity::getPosition() {
 	return position;
 }
 
+int Entity::getType() {
+	return type;
+}
+
 
 /////////////////////
 //PRIVATE FUNCTIONS//
@@ -52,32 +62,20 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 }
 
 void Entity::updateVertices() {
-	
 	//changing position into terms of pixels and positioning vertices
-	if (direction == Direction::UP) {
-		vertices[0].position = (sf::Vector2f)(position * tileSize); //top left
-		vertices[1].position = (sf::Vector2f)(position * tileSize + sf::Vector2i(tileSize * size.x, 0)); //top right
-		vertices[2].position = (sf::Vector2f)(position * tileSize + sf::Vector2i(tileSize * size.x, tileSize * size.y)); //bottom right
-		vertices[3].position = (sf::Vector2f)(position * tileSize + sf::Vector2i(0, tileSize * size.y)); //bottom left
-	}
-	else if (direction == Direction::DOWN) {
-		vertices[2].position = (sf::Vector2f)(position * tileSize);
-		vertices[3].position = (sf::Vector2f)(position * tileSize + sf::Vector2i(tileSize * size.x, 0));
-		vertices[0].position = (sf::Vector2f)(position * tileSize + sf::Vector2i(tileSize * size.x, tileSize * size.y));
-		vertices[1].position = (sf::Vector2f)(position * tileSize + sf::Vector2i(0, tileSize * size.y));
-	}
-	else if (direction == Direction::LEFT) {
-		vertices[1].position = (sf::Vector2f)(position * tileSize); //top left
-		vertices[2].position = (sf::Vector2f)(position * tileSize + sf::Vector2i(tileSize * size.x, 0)); //top right
-		vertices[3].position = (sf::Vector2f)(position * tileSize + sf::Vector2i(tileSize * size.x, tileSize * size.y)); //bottom right
-		vertices[0].position = (sf::Vector2f)(position * tileSize + sf::Vector2i(0, tileSize * size.y)); //bottom left
-	}
-	else if (direction == Direction::RIGHT) {
-		vertices[3].position = (sf::Vector2f)(position * tileSize); //top left
-		vertices[0].position = (sf::Vector2f)(position * tileSize + sf::Vector2i(tileSize * size.x, 0)); //top right
-		vertices[1].position = (sf::Vector2f)(position * tileSize + sf::Vector2i(tileSize * size.x, tileSize * size.y)); //bottom right
-		vertices[2].position = (sf::Vector2f)(position * tileSize + sf::Vector2i(0, tileSize * size.y)); //bottom left
-	}
+	vertices[0].position = (sf::Vector2f)(position * tileSize); //top left
+	vertices[1].position = (sf::Vector2f)(position * tileSize + sf::Vector2i(tileSize * size.x, 0)); //top right
+	vertices[2].position = (sf::Vector2f)(position * tileSize + sf::Vector2i(tileSize * size.x, tileSize * size.y)); //bottom right
+	vertices[3].position = (sf::Vector2f)(position * tileSize + sf::Vector2i(0, tileSize * size.y)); //bottom left
+
+	if (direction == Direction::DOWN)
+		changeTexturePosition(0, 0);
+	if (direction == Direction::RIGHT)
+		changeTexturePosition(1, 0);
+	if (direction == Direction::UP)
+		changeTexturePosition(2, 0);
+	if (direction == Direction::LEFT)
+		changeTexturePosition(3, 0);
 }
 
 void Entity::changeTexturePosition(int x, int y) {
