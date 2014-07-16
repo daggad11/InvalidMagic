@@ -54,6 +54,46 @@ void TileMap::load(std::vector<std::vector<int>> tiles, std::string tileSet, int
 
 }
 
+std::vector<std::vector<int>> TileMap::getTiles() {
+	return tiles;
+}
+
+void TileMap::setTiles(std::vector<std::vector<int>> newtiles) {
+	this->tiles = newtiles;
+
+	int width = tiles.size();
+	int height = tiles[0].size();
+	
+	int texWidth = tileSet.getSize().x;
+	int texHeight = tileSet.getSize().y;
+
+	for (int a = 0; a < width; a++) {
+		for (int b = 0; b < height; b++) {
+			//getting value at position in array
+			int tileNumber = tiles[a][b];
+
+			//finding position in tileset
+			int texPosX = tileNumber % (texWidth / tileSize);
+			int texPosY = tileNumber / (texWidth / tileSize); 
+
+			//getting pointer to current quad
+			sf::Vertex* quad = &(this->vertices[(a + b * width) * 4]);
+
+			//positioning vertices
+			quad[0].position = sf::Vector2f(a * tileSize, b * tileSize);
+			quad[1].position = sf::Vector2f((a+1) * tileSize, b * tileSize);
+			quad[2].position = sf::Vector2f((a+1) * tileSize, (b+1) * tileSize);
+			quad[3].position = sf::Vector2f(a * tileSize, (b+1) * tileSize);
+
+			//positioning tex coords for vertices
+			quad[0].texCoords = sf::Vector2f(texPosX * tileSize, texPosY * tileSize);
+			quad[1].texCoords = sf::Vector2f((texPosX+1) * tileSize, texPosY * tileSize);
+			quad[2].texCoords = sf::Vector2f((texPosX+1) * tileSize, (texPosY+1) * tileSize);
+			quad[3].texCoords = sf::Vector2f(texPosX * tileSize, (texPosY+1) * tileSize);
+		}
+	}
+}
+
 /////////////////////
 //PRIVATE FUNCTIONS//
 /////////////////////

@@ -14,16 +14,19 @@ public:
 	void setAttacking(int direction, bool value);
 	void takeDamage(float damage); //decreases health
 	std::map<int, float> getBaseStats(); //returns base stats
+	std::vector<Weapon> getWeapons();
+	Weapon getEquipedWeapon();
+	void equipWeapon(Weapon weapon);
 private:
 	bool moving[4]; //used for smooth movement
 	bool attacking[4]; //used for attacking in a direction
 	std::map<int, float> baseStats; //base stats before buffs or nerfs
 	std::vector<NPC>* npcs; //used to attack creatures
 
-	Weapon weapon; //weapon used in combat;
+	Weapon equipedWeapon;
+	std::vector<Weapon> weapons; //weapon used in combat;
 
 	void resetStats(); //resets stats to base stats
-	void equipWeapon(Weapon weapon);
 	bool meleeAttack(sf::Vector2i position); //attacks npc at specifiec point
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const; //allows for drawing of healthbar
 };

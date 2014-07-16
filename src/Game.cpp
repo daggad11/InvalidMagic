@@ -4,7 +4,7 @@
 #include "DebugText.hpp"
 #include "Entity.hpp"
 #include "World.hpp"
-#include "HUD.hpp"
+#include "UserInterface.hpp"
 
 int main()
 {
@@ -25,13 +25,13 @@ int main()
     lastTime = timer.getElapsedTime().asSeconds();
 
     //creating world
-    World world(&timer);
+    World world(&timer, &view);
 
     //getting pointer to player from world
     Player* player = world.getPlayer();
 
-    //creating HUD
-    HUD hud(player, &view, &window);
+    //creating ui
+    UserInterface ui(player, &view, &window);
 
     //used for player movement
     bool moveRight;
@@ -49,6 +49,8 @@ int main()
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
+                window.close();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) 
                 window.close();
 
             //player movement, checking state of movement keys
@@ -88,13 +90,17 @@ int main()
                 player->setAttacking(Entity::Direction::DOWN, true);
             else
                 player->setAttacking(Entity::Direction::DOWN, false);
+
+            //menus
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
+                ui.weaponsMenu();
             
         }
 
         //updating everything in world
         world.update();
-        //updating HUD
-        hud.update();
+        //updating ui
+        ui.update();
 
         //centering view on player
         view.setCenter(((sf::Vector2f)(player->getPosition()*64)));
@@ -107,7 +113,7 @@ int main()
         window.clear();
         window.draw(world);
         window.draw(debug);
-        window.draw(hud);
+        window.draw(ui);
         window.display();
 
         //calculating fps and showing debug text every 0.25 seconds
@@ -119,7 +125,7 @@ int main()
 
             //setting debug lines
             debug.setLine(0, "FPS: " + std::to_string(fps));
-            debug.setLine(1, "Average FPS: " + std::to_string((int)(totalFrames / timer.getElapsedTime().asSeconds())));
+            debug.setLine(1, "Weapon: " + player->getEquipedWeapon().getName());
             debug.setLine(2, "Player Health: " + std::to_string((int)player->getStats()[Player::StatName::HEALTH]));
         }
         frames++;

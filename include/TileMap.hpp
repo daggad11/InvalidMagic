@@ -10,11 +10,14 @@ Tiles are handled completely by tilemaps, they are not actually objects*/
 
 class TileMap : public sf::Drawable, public sf::Transformable {
 public:
-	enum TileType { DIRT1, DIRT2, DIRT3, GRASS, BLANK1, BlANK2, WATER, BLANK3, BLANK4 };
+	enum TileType { DIRT, GRASS, CONCRETE,
+									ROADVERT, ROADHOR, ROADCROSS,
+									BRIDGEVERT, BRIDGEHOR, RIVER };
 
 	TileMap(); //default constructor
 	void load(std::vector<std::vector<int> > tiles, std::string tileSet, int tileSize); //loads tiles and creates vertex array
-
+	std::vector<std::vector<int> > getTiles();
+	void setTiles(std::vector<std::vector<int>> tiles);
 private:
 	int tileSize; //size of tiles in pixels
 

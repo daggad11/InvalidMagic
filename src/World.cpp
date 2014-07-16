@@ -5,8 +5,9 @@
 //PUBLIC FUNCTIONS//
 ////////////////////
 
-World::World(sf::Clock* timer) {
+World::World(sf::Clock* timer, sf::View* view) {
 	this->timer = timer;
+	this->view = view;
 
 	//creating textures
 	textures[EntityType::PLAYER] = sf::Texture();
@@ -22,10 +23,10 @@ World::World(sf::Clock* timer) {
 	genMap(100, 100);
 
 	//creating player
-	player = Player(&npcs, timer, 64, sf::Vector2i(1, 1), sf::Vector2i(1, 1), &entityMap, &tileMap, &textures[EntityType::PLAYER]);
+	player = Player(&npcs, timer, 64, sf::Vector2i(20, 40), sf::Vector2i(1, 1), &entityMap, &tileMap, &textures[EntityType::PLAYER]);
 
 	//generating 10 zombies
-	int zombiesLeft = 100;
+	int zombiesLeft = 50;
 	while (zombiesLeft > 0) {
 		sf::Vector2i position(rand() % entityMap.size(), rand() % entityMap[0].size());
 		if (mapClear(position, sf::Vector2i(1, 1))) {
@@ -69,20 +70,44 @@ void World::genMap(int width, int height) {
 		
 		for (int b = 0; b < height; b++) {
 			//generating random dirt
-			tempTiles[a].push_back(rand() % 3);
+			tempTiles[a].push_back(TileMap::TileType::GRASS);
 			entityMap[a].push_back(NULL);
 		}
 	}
 
 	//generating tilemap
-	tileMap.load(tempTiles, "resources/tiles.jpg", 64);
+	tileMap.load(tempTiles, "resources/tiles.png", 64);
 
-	//generating forest
-	for (int a = 10; a < 50; a += 2) {
-		for (int b = 10; b < 50; b+= 2) {
-			objects.push_back(Entity(64, sf::Vector2i(a, b), sf::Vector2i(1, 1), &entityMap, &tileMap, &textures[EntityType::TREE]));
+	//creating road
+	paint(sf::Vector2i(0, 48), sf::Vector2i(100, 1), TileMap::TileType::CONCRETE);
+	paint(sf::Vector2i(0, 49), sf::Vector2i(100, 1), TileMap::TileType::ROADHOR);
+	paint(sf::Vector2i(0, 50), sf::Vector2i(100, 1), TileMap::TileType::CONCRETE);
+
+	//generating forests
+	genForest(sf::Vector2i (30, 0), sf::Vector2i(70, 48), 3);
+	genForest(sf::Vector2i (30, 51), sf::Vector2i(70, 49), 3);
+}
+
+void World::genForest(sf::Vector2i startPosition, sf::Vector2i size, int density) {
+	paint(startPosition, size, TileMap::TileType::DIRT);
+	for (int a = startPosition.x; a < startPosition.x + size.x; a++) {
+		for (int b = startPosition.y; b < startPosition.y + size.y; b++) {
+			//decitding whether to create a tree 1/(10-density) chance
+			if (rand() % (10-density) == 0)
+				createObject(sf::Vector2i(a, b), EntityType::TREE);
 		}
 	}
+}
+
+void World::paint(sf::Vector2i startPosition, sf::Vector2i size, int type) {
+	std::vector<std::vector<int>> tiles = tileMap.getTiles();
+
+	for (int a = startPosition.x; a < startPosition.x + size.x; a++) {
+		for (int b = startPosition.y; b < startPosition.y + size.y; b++) {
+			tiles[a][b] = type;
+		}
+	}
+	tileMap.setTiles(tiles);
 }
 
 void World::createNPC(sf::Vector2i position, int type) {
@@ -102,11 +127,17 @@ void World::createNPC(sf::Vector2i position, int type) {
 	}
 }
 
+void World::createObject(sf::Vector2i position, int type) {
+	if (type == EntityType::TREE) {
+		objects.push_back(Entity(64, position, sf::Vector2i(1, 1), &entityMap, &tileMap, &textures[EntityType::TREE]));
+	}
+}
+
 void World::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	target.draw(tileMap, states);
 
 	//drawing all objects
-	for (Entity object : objects) {
+	for (Entity object : objects) { 
 		target.draw(object);
 	}
 	

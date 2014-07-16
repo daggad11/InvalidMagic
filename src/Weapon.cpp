@@ -5,12 +5,14 @@
 ////////////////////
 
 Weapon::Weapon() {
-	type = Type::MELEE;
-	name = "Unarmed";
-	hitTime = 0.5;
+	//do nothing
+}
 
-	statModifiers[StatName::ATTACK] = 2;
-	statModifiers[StatName::BASEDAMAGE] = 3;
+Weapon::Weapon(std::string name, bool type, std::map<int, float> statModifiers, float hitTime) {
+	this->name = name;
+	this->type = type;
+	this->statModifiers = statModifiers;
+	this->hitTime = hitTime;
 }
 
 std::map<int, float> Weapon::getStatModifiers() {
@@ -23,4 +25,8 @@ float Weapon::getHitTime() {
 
 bool Weapon::getType() {
 	return type;
+}
+
+std::string Weapon::getName() {
+	return name;
 }

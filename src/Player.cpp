@@ -32,8 +32,18 @@ Player::Player(std::vector<NPC>* npcs, sf::Clock* timer, int tileSize, sf::Vecto
 	//setting stats to baseStats
 	resetStats();
 
+	//creating Weapons
+	std::map<int, float> statModifiers;
+	statModifiers[StatName::ATTACK] = 3;
+	statModifiers[StatName::BASEDAMAGE] = 5;
+
+	weapons.push_back(Weapon("Unarmed", Weapon::Type::MELEE, statModifiers, 0.5));
+	weapons.push_back(Weapon("Katana", Weapon::Type::MELEE, statModifiers, 0.5));
+	weapons.push_back(Weapon("Mace", Weapon::Type::MELEE, statModifiers, 0.5));
+	weapons.push_back(Weapon("Stick", Weapon::Type::MELEE, statModifiers, 0.5));
+
 	//equiping unarmed weapon
-	equipWeapon(Weapon());
+	equipWeapon(weapons[0]);
 }
 
 void Player::update() {
@@ -77,45 +87,45 @@ void Player::update() {
 			updateVertices();
 
 			//MELEE ATTACK
-			if (weapon.getType() == Weapon::Type::MELEE) {
+			if (equipedWeapon.getType() == Weapon::Type::MELEE) {
 				if (meleeAttack(position+sf::Vector2i(1, 0)))
-					nextAttack = timer->getElapsedTime().asSeconds() + weapon.getHitTime();
+					nextAttack = timer->getElapsedTime().asSeconds() + equipedWeapon.getHitTime();
 			}
 		}
 		//ATTACKING LEFT
 		else if (attacking[Direction::LEFT]) {
 			direction = Direction::LEFT;
 			updateVertices();
-			nextAttack = timer->getElapsedTime().asSeconds() + weapon.getHitTime();
+			nextAttack = timer->getElapsedTime().asSeconds() + equipedWeapon.getHitTime();
 
 			//MELEE ATTACK
-			if (weapon.getType() == Weapon::Type::MELEE) {
+			if (equipedWeapon.getType() == Weapon::Type::MELEE) {
 				if (meleeAttack(position+sf::Vector2i(-1, 0)))
-					nextAttack = timer->getElapsedTime().asSeconds() + weapon.getHitTime();
+					nextAttack = timer->getElapsedTime().asSeconds() + equipedWeapon.getHitTime();
 			}
 		}
 		//ATTACKING UP
 		else if (attacking[Direction::UP]) {
 			direction = Direction::UP;
 			updateVertices();
-			nextAttack = timer->getElapsedTime().asSeconds() + weapon.getHitTime();
+			nextAttack = timer->getElapsedTime().asSeconds() + equipedWeapon.getHitTime();
 
 			//MELEE ATTACK
-			if (weapon.getType() == Weapon::Type::MELEE) {
+			if (equipedWeapon.getType() == Weapon::Type::MELEE) {
 				if (meleeAttack(position+sf::Vector2i(0, -1)))
-					nextAttack = timer->getElapsedTime().asSeconds() + weapon.getHitTime();
+					nextAttack = timer->getElapsedTime().asSeconds() + equipedWeapon.getHitTime();
 			}
 		}
 		//ATTACKING DOWN
 		else if (attacking[Direction::DOWN]) {
 			direction = Direction::DOWN;
 			updateVertices();
-			nextAttack = timer->getElapsedTime().asSeconds() + weapon.getHitTime();
+			nextAttack = timer->getElapsedTime().asSeconds() + equipedWeapon.getHitTime();
 
 			//MELEE ATTACK
-			if (weapon.getType() == Weapon::Type::MELEE) {
+			if (equipedWeapon.getType() == Weapon::Type::MELEE) {
 				if (meleeAttack(position+sf::Vector2i(0, 1)))
-					nextAttack = timer->getElapsedTime().asSeconds() + weapon.getHitTime();
+					nextAttack = timer->getElapsedTime().asSeconds() + equipedWeapon.getHitTime();
 			}
 		}
 	} //end of attacking
@@ -144,6 +154,14 @@ std::map<int, float> Player::getBaseStats() {
 	return baseStats;
 }
 
+std::vector<Weapon> Player::getWeapons() {
+	return weapons;
+}
+
+Weapon Player::getEquipedWeapon() {
+	return equipedWeapon;
+}
+
 /////////////////////
 //Private FUNCTIONS//
 /////////////////////
@@ -156,10 +174,10 @@ void Player::resetStats() {
 }
 
 void Player::equipWeapon(Weapon weapon) {
-	this->weapon = weapon;
+	equipedWeapon = weapon;
 
 	for (auto statModifier : weapon.getStatModifiers()) {
-		stats[statModifier.first] += statModifier.second;
+		stats[statModifier.first] = baseStats[statModifier.first] + statModifier.second;
 	}
 }
 

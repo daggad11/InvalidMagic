@@ -8,9 +8,11 @@ public:
 	enum StatName { SPEED, HEALTH, ATTACK, DEFENSE, BASEDAMAGE };
 
 	Weapon();
+	Weapon(std::string name, bool type, std::map<int, float> statModifiers, float hitTime);
 	std::map<int, float> getStatModifiers();
 	float getHitTime();
 	bool getType();
+	std::string getName();
 private:
 	bool type; //type of weapon, melee or ranged
 	std::string name; //name of weapon
