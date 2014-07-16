@@ -1,0 +1,1 @@
+i586-mingw32msvc-cc src/* -I include -I ~/SFML/include -L ~/SFML/lib -lsfml-graphics -lsfml-window -lsfml-system -o bin/game.exe -std=c++11 && export LD_LIBRARY_PATH=~/SFML/lib
