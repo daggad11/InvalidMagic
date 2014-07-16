@@ -79,8 +79,8 @@ void World::genMap(int width, int height) {
 
 	//generating forest
 	for (int a = 10; a < 50; a += 2) {
-		for (int b = 10; b < 50; b+= 4) {
-			objects.push_back(Entity(64, sf::Vector2i(a, b), sf::Vector2i(1, 2), &entityMap, &tileMap, &textures[EntityType::TREE]));
+		for (int b = 10; b < 50; b+= 2) {
+			objects.push_back(Entity(64, sf::Vector2i(a, b), sf::Vector2i(1, 1), &entityMap, &tileMap, &textures[EntityType::TREE]));
 		}
 	}
 }
