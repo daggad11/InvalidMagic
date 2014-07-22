@@ -28,19 +28,18 @@ Player::Player(std::vector<NPC>* npcs, sf::Clock* timer, int tileSize, sf::Vecto
 	baseStats[StatName::ATTACK] = 10;
 	baseStats[StatName::DEFENSE] = 10;
 	baseStats[StatName::BASEDAMAGE] = 10;
+	gold = 30;
 
 	//setting stats to baseStats
 	resetStats();
 
 	//creating Weapons
 	std::map<int, float> statModifiers;
-	statModifiers[StatName::ATTACK] = 3;
-	statModifiers[StatName::BASEDAMAGE] = 5;
+	statModifiers[StatName::ATTACK] = 0;
+	statModifiers[StatName::DEFENSE] = 0;
+	statModifiers[StatName::BASEDAMAGE] = 0;
 
-	weapons.push_back(Weapon("Unarmed", Weapon::Type::MELEE, statModifiers, 0.5));
-	weapons.push_back(Weapon("Katana", Weapon::Type::MELEE, statModifiers, 0.5));
-	weapons.push_back(Weapon("Mace", Weapon::Type::MELEE, statModifiers, 0.5));
-	weapons.push_back(Weapon("Stick", Weapon::Type::MELEE, statModifiers, 0.5));
+	weapons.push_back(Weapon("Unarmed", Weapon::Type::MELEE, statModifiers, 0.5, 0, "resources/unarmed.png"));
 
 	//equiping unarmed weapon
 	equipWeapon(weapons[0]);
@@ -158,8 +157,29 @@ std::vector<Weapon> Player::getWeapons() {
 	return weapons;
 }
 
-Weapon Player::getEquipedWeapon() {
-	return equipedWeapon;
+Weapon* Player::getEquipedWeapon() {
+	return &equipedWeapon;
+}
+
+NPC* Player::nearbyMerchant() {
+	for (int a = 0; a < (*npcs).size(); a++) {
+		sf::Vector2i distance = (*npcs)[a].getPosition() - position;
+		if (abs(distance.x) + abs(distance.y) == 1)
+			return &((*npcs)[a]);
+	}
+	return NULL;
+}
+
+void Player::addWeapon(Weapon weapon) {
+	weapons.push_back(weapon);
+}
+
+int Player::getGold() {
+	return gold;
+}
+
+void Player::changeGold(int amount) {
+	gold += amount;
 }
 
 /////////////////////

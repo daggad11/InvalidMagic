@@ -13,11 +13,13 @@ World::World(sf::Clock* timer, sf::View* view) {
 	textures[EntityType::PLAYER] = sf::Texture();
 	textures[EntityType::TREE] = sf::Texture();
 	textures[EntityType::ZOMBIE] = sf::Texture();
+	textures[EntityType::MERCHANT] = sf::Texture();
 
 	//loading textures
 	textures[EntityType::PLAYER].loadFromFile("resources/playerFemale.png");
 	textures[EntityType::TREE].loadFromFile("resources/tree.png");
 	textures[EntityType::ZOMBIE].loadFromFile("resources/zombie.png");
+	textures[EntityType::MERCHANT].loadFromFile("resources/merchantMale.png");
 
 	//creating 10x10 tileMap
 	genMap(100, 100);
@@ -25,8 +27,11 @@ World::World(sf::Clock* timer, sf::View* view) {
 	//creating player
 	player = Player(&npcs, timer, 64, sf::Vector2i(20, 40), sf::Vector2i(1, 1), &entityMap, &tileMap, &textures[EntityType::PLAYER]);
 
+	//creating weapons
+	createWeapons();
+
 	//generating 10 zombies
-	int zombiesLeft = 50;
+	int zombiesLeft = 10;
 	while (zombiesLeft > 0) {
 		sf::Vector2i position(rand() % entityMap.size(), rand() % entityMap[0].size());
 		if (mapClear(position, sf::Vector2i(1, 1))) {
@@ -35,6 +40,8 @@ World::World(sf::Clock* timer, sf::View* view) {
 		}
 	}
 
+	//generating merchant
+	createNPC(sf::Vector2i(22, 41), EntityType::MERCHANT);
 }
 
 
@@ -84,8 +91,8 @@ void World::genMap(int width, int height) {
 	paint(sf::Vector2i(0, 50), sf::Vector2i(100, 1), TileMap::TileType::CONCRETE);
 
 	//generating forests
-	genForest(sf::Vector2i (30, 0), sf::Vector2i(70, 48), 3);
-	genForest(sf::Vector2i (30, 51), sf::Vector2i(70, 49), 3);
+	genForest(sf::Vector2i (30, 0), sf::Vector2i(70, 48), 7);
+	genForest(sf::Vector2i (30, 51), sf::Vector2i(70, 49), 7);
 }
 
 void World::genForest(sf::Vector2i startPosition, sf::Vector2i size, int density) {
@@ -125,12 +132,45 @@ void World::createNPC(sf::Vector2i position, int type) {
 
 		npcs.push_back(NPC(NPC::lastId, NPC::Type::FOLLOW, NPC::Type::MELEE, &player, stats, timer, 64, position, sf::Vector2i(1, 1), &entityMap, &tileMap, &textures[EntityType::ZOMBIE]));
 	}
+
+	//MERCHANT NPC
+	if (type == EntityType::MERCHANT) {
+		stats[Creature::StatName::SPEED] = -1000;
+		stats[Creature::StatName::HEALTH] = 500;
+		stats[Creature::StatName::ATTACK] = 10;
+		stats[Creature::StatName::DEFENSE] = 50;
+		stats[Creature::StatName::BASEDAMAGE] = 10;
+
+		npcs.push_back(NPC(NPC::lastId, NPC::Type::PASSIVE, NPC::Type::NONE, &player, stats, timer, 64, position, sf::Vector2i(1, 1), &entityMap, &tileMap, &textures[EntityType::MERCHANT]));	
+		npcs[npcs.size()-1].setMerchant(true);	
+
+		//giving merchant weapons
+		for (auto weapon : weapons) {
+			npcs[npcs.size()-1].addWeapon(weapon);
+		}
+	}
 }
 
 void World::createObject(sf::Vector2i position, int type) {
 	if (type == EntityType::TREE) {
 		objects.push_back(Entity(64, position, sf::Vector2i(1, 1), &entityMap, &tileMap, &textures[EntityType::TREE]));
 	}
+}
+
+void World::createWeapons() {
+	std::map<int, float> statModifiers;
+
+	//sword
+	statModifiers[Weapon::StatName::ATTACK] = 5;
+	statModifiers[Weapon::StatName::DEFENSE] = 5;
+	statModifiers[Weapon::StatName::BASEDAMAGE] = 5;
+	weapons.push_back(Weapon("sword", Weapon::Type::MELEE, statModifiers, 0.5, 10, "resources/sword.png"));
+
+	//scythe
+	statModifiers[Weapon::StatName::ATTACK] = 10;
+	statModifiers[Weapon::StatName::DEFENSE] = 0;
+	statModifiers[Weapon::StatName::BASEDAMAGE] = 10;
+	weapons.push_back(Weapon("scythe", Weapon::Type::MELEE, statModifiers, 1, 15, "resources/scythe.png"));
 }
 
 void World::draw(sf::RenderTarget& target, sf::RenderStates states) const {

@@ -14,6 +14,9 @@ NPC::NPC(int id, int updateType, int attackType, Player* player, std::map<int, f
 	this->stats = stats;
 	this->player = player;
 
+	//defaulting merchant to false
+	merchant = false;
+
 	originalHealth = stats[StatName::HEALTH];
 
 	//loading rectangles for healthbar
@@ -30,6 +33,9 @@ NPC::NPC(int id, int updateType, int attackType, Player* player, std::map<int, f
 
 	//incrementing last id
 	lastId++;
+
+	//positioning damage text
+	damageText.setPosition(position.x * tileSize + tileSize/3, position.y * tileSize + 20);
 
 	srand(time(NULL));
 }
@@ -74,6 +80,9 @@ void NPC::passiveUpdate() {
 			//repositioning healthbars
 			healthBar[0].setPosition(sf::Vector2f(position.x*tileSize, position.y*tileSize - healthBar[0].getSize().y - 5));
 			healthBar[1].setPosition(sf::Vector2f(position.x*tileSize, position.y*tileSize - healthBar[0].getSize().y - 5));
+
+			//repositioning damage text
+			damageText.setPosition(position.x * tileSize + tileSize/3, position.y * tileSize + 20);
 		}
 	}
 }
@@ -188,6 +197,21 @@ void NPC::takeDamage(float damage) {
 	damagedAt = timer->getElapsedTime().asSeconds();
 }
 
+std::vector<Weapon> NPC::getWeapons() {
+	return weapons;
+}
+
+void NPC::setMerchant(bool state) {
+	merchant = state;
+}
+
+bool NPC::isMerchant() {
+	return merchant;
+}
+
+void NPC::addWeapon(Weapon weapon) {
+	weapons.push_back(weapon);
+}
 
 /////////////////////
 //Private FUNCTIONS//

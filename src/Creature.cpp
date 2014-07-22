@@ -20,7 +20,7 @@ Creature::Creature(sf::Clock* timer, int tileSize, sf::Vector2i position, sf::Ve
 	nextAttack = timer->getElapsedTime().asSeconds();
 
 	//loading font and text
-	font.loadFromFile("resources/stocky1.ttf");	
+	font.loadFromFile("resources/stocky.ttf");	
 	damageText = sf::Text("", font, 20);
 	damageText.setColor(sf::Color::Red);
 }

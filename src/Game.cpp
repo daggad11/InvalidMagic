@@ -7,9 +7,10 @@
 #include "UserInterface.hpp"
 
 int main()
-{
+{   
+    float tileWidth = 21; //amojnt of tiles visible on width of screen
     sf::RenderWindow window(sf::VideoMode(1600, 900), "SFML works!");
-    sf::View view(sf::FloatRect(0, 0, window.getSize().x/2, window.getSize().y/2));
+    sf::View view(sf::FloatRect(0, 0, 64*tileWidth, 64*tileWidth*window.getSize().y/window.getSize().x));
 
     sf::Clock timer;
 
@@ -94,17 +95,22 @@ int main()
             //menus
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
                 ui.weaponsMenu();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+                if (player->nearbyMerchant() != NULL)
+                    ui.weaponsShop(player->nearbyMerchant());
+            }
             
         }
 
         //updating everything in world
         world.update();
-        //updating ui
-        ui.update();
 
         //centering view on player
         view.setCenter(((sf::Vector2f)(player->getPosition()*64)));
         window.setView(view);
+
+        //updating ui
+        ui.update();
 
         //moving debug text to line up with view
         debug.setPosition(sf::Vector2f(view.getCenter().x - window.getSize().x/4, view.getCenter().y - window.getSize().y/4));
@@ -125,7 +131,7 @@ int main()
 
             //setting debug lines
             debug.setLine(0, "FPS: " + std::to_string(fps));
-            debug.setLine(1, "Weapon: " + player->getEquipedWeapon().getName());
+            debug.setLine(1, "Weapon: " + player->getEquipedWeapon()->getName());
             debug.setLine(2, "Player Health: " + std::to_string((int)player->getStats()[Player::StatName::HEALTH]));
         }
         frames++;

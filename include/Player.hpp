@@ -15,13 +15,19 @@ public:
 	void takeDamage(float damage); //decreases health
 	std::map<int, float> getBaseStats(); //returns base stats
 	std::vector<Weapon> getWeapons();
-	Weapon getEquipedWeapon();
+	Weapon* getEquipedWeapon();
 	void equipWeapon(Weapon weapon);
+	NPC* nearbyMerchant();
+	void addWeapon(Weapon weapon);
+	int getGold();
+	void changeGold(int amount);
 private:
 	bool moving[4]; //used for smooth movement
 	bool attacking[4]; //used for attacking in a direction
 	std::map<int, float> baseStats; //base stats before buffs or nerfs
 	std::vector<NPC>* npcs; //used to attack creatures
+
+	int gold; //amount of gold
 
 	Weapon equipedWeapon;
 	std::vector<Weapon> weapons; //weapon used in combat;
